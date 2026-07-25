@@ -1,12 +1,12 @@
 {
-  "hero": "hero.jpg",
+  "hero": "hero.webp",
   "heroVideo": "",
-  "chisiamo1": "interno.jpg",
-  "chisiamo2": "te.jpg",
-  "chisiamo3": "caffe.jpg",
-  "tavolo": "sala-da-te.jpg",
-  "facciata": "facciata.jpg",
-  "galleria1": "galleria-1.jpg",
-  "galleria2": "galleria-2.jpg",
-  "galleria3": "galleria-3.jpg"
+  "chisiamo1": "interno.webp",
+  "chisiamo2": "te.webp",
+  "chisiamo3": "caffe.webp",
+  "tavolo": "sala-da-te.webp",
+  "facciata": "facciata.webp",
+  "galleria1": "galleria-1.webp",
+  "galleria2": "galleria-2.webp",
+  "galleria3": "galleria-3.webp"
 }

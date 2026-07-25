@@ -205,7 +205,7 @@ const AVAIL_STYLE={"Disponibile":["#E0EDE4","#2A5A20"],"In arrivo":["#F5E8C0","#
 let state={section:"home",menuOpen:false,quizStep:-1,quizAns:[],quizRes:null,selTerr:null,selLibro:null,eventi:SAMPLE.eventi,gdl:SAMPLE.gdl,libri:SAMPLE.libri,oggi:SAMPLE.oggi,homepage:SAMPLE.homepage,impostazioni:SAMPLE.impostazioni,shop:SAMPLE_SHOP};
 
 function waLink(msg){return `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;}
-function openWA(msg){window.open(waLink(msg),"_blank");}
+function openWA(msg){window.open(waLink(msg),"_blank","noopener,noreferrer");}
 function fmtDate(d){if(!d)return"";try{return new Date(d).toLocaleDateString("it-IT",{day:"numeric",month:"long"});}catch{return d;}}
 function imgSrc(f){if(!f)return null;if(f.startsWith("http")||f.startsWith("data:"))return f;return `./immagini/${f}`;}
 function esc(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -250,8 +250,8 @@ async function loadData(){
 function navigate(section, fromHistory){
   state.section=section; state.menuOpen=false; state.selTerr=null; state.selLibro=null; render();
   window.scrollTo({top:0,behavior:"smooth"});
-  const titles={home:"I Funamboli — Barletta",scaffali:"Scaffali — I Funamboli",eventi:"Eventi — I Funamboli",gdl:"Gruppi di lettura — I Funamboli",wishlist:"Wishlist — I Funamboli",tavolo:"Prenota un tavolo — I Funamboli",dove:"Dove siamo — I Funamboli",privacy:"Privacy — I Funamboli",cookie:"Cookie — I Funamboli"};
-  document.title=titles[section]||"I Funamboli";
+  const titles={home:"Barletta",scaffali:"Scaffali",eventi:"Eventi",gdl:"Gruppi di lettura",shop:"Negozio",wishlist:"Wishlist",tavolo:"Prenota un tavolo",dove:"Dove siamo",privacy:"Privacy",cookie:"Cookie"};
+  document.title=(titles[section]?titles[section]+" — ":"")+SITE_NAME;
   if(!fromHistory){ try{ history.pushState({section}, "", "#"+section); }catch{} }
 }
 window.addEventListener("popstate", function(){
@@ -283,7 +283,7 @@ function renderShell(){
     <p class="serif" style="font-size:22px;color:#fff;margin-bottom:.6rem;">${esc(SITE_NAME)}</p>
     <p style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.9;margin-bottom:1.2rem;">${esc(ADDR)}<br>Libreria emotivo-relazionale · Sala da tè · Specialty coffee</p>
     <p style="font-size:12px;color:var(--gold-light);font-style:italic;margin-bottom:2rem;">${esc(TESTI.footerTagline)}</p>
-    <a href="https://instagram.com/${IG}" target="_blank" style="font-size:12px;color:var(--gold-light);letter-spacing:.1em;display:block;margin-bottom:2.5rem;">@${IG}</a>
+    <a href="https://instagram.com/${IG}" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--gold-light);letter-spacing:.1em;display:block;margin-bottom:2.5rem;">@${IG}</a>
     <p style="font-size:10.5px;color:rgba(255,255,255,.4);line-height:2.1;">P.IVA ${esc(PIVA)}<br>
       <button onclick="navigate('privacy')" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;cursor:pointer;padding:0;">Privacy policy</button> ·
       <button onclick="navigate('cookie')" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;cursor:pointer;padding:0;">Cookie policy</button>
@@ -401,7 +401,7 @@ function renderHome(){
         ${passatiHome.map(e=>`<div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;">
           ${imgSrc(e.immagine)?`<img src="${imgSrc(e.immagine)}" alt="${esc(e.titolo)}" loading="lazy" style="width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;">`:`<div style="width:52px;height:52px;border-radius:8px;background:var(--dark);flex-shrink:0;"></div>`}
           <div style="flex:1"><p style="font-size:13.5px;font-weight:500;">${esc(e.titolo)}</p><p style="font-size:11.5px;color:var(--muted);margin-top:2px;">${fmtDate(e.data)}</p></div>
-          ${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" style="font-size:11.5px;color:var(--gold);text-decoration:underline;flex-shrink:0;">Guarda</a>`:""}
+          ${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;color:var(--gold);text-decoration:underline;flex-shrink:0;">Guarda</a>`:""}
         </div>`).join("")}
       </div>
     </div></div>`;
@@ -481,7 +481,7 @@ function renderEventi(){
         ${e.descrizione?`<p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1rem;">${esc(e.descrizione)}</p>`:""}
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button onclick="openWA('Ciao! Vorrei prenotare un posto per questo evento: &quot;${jsAttr(e.titolo)}&quot; del ${fmtDate(e.data)}.')" style="background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem 1.4rem;font-size:12px;cursor:pointer;">Prenota posto</button>
-          ${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:100px;padding:.6rem 1.2rem;font-size:12px;color:var(--text);">📷 Guarda il post</a>`:""}
+          ${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:100px;padding:.6rem 1.2rem;font-size:12px;color:var(--text);">📷 Guarda il post</a>`:""}
         </div>
       </div></div></div>`).join("")}
   </div>
@@ -564,13 +564,13 @@ function renderDove(){
   return `<div class="fade in photo-box" style="position:relative;height:260px;"><div class="fallback" style="background:linear-gradient(135deg,#C8B898,var(--dark-mid));"></div><img src="${siteImg('facciata')}" alt="Facciata I Funamboli" loading="lazy" decoding="async" onerror="this.style.display='none'"><div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,22,16,.15),rgba(26,22,16,.75));z-index:1;"></div><div class="narrow" style="position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem;z-index:2;"><p class="serif" style="font-size:30px;color:#fff;margin-bottom:.4rem;">Vieni a trovarci.</p><p style="font-size:14px;color:rgba(255,255,255,.55);">${esc(ADDR)}</p></div></div>
   <div class="fade narrow" style="padding:2.5rem 1.5rem;">
     <div class="welcome-card" style="margin-top:0;margin-bottom:2rem;"><p class="eyebrow" style="margin-bottom:1rem;">Come arrivare</p><div class="welcome-row"><div class="welcome-dot"></div><p style="font-size:13.5px;line-height:1.6;">${esc(TESTI.doveBullet1)}</p></div><div class="welcome-row"><div class="welcome-dot"></div><p style="font-size:13.5px;line-height:1.6;">${esc(TESTI.doveBullet2)}</p></div></div>
-    <button class="btn-ghost" onclick="window.open('https://maps.google.com/?q=${encodeURIComponent(ADDR)}','_blank')" style="background:var(--bg-warm);margin-bottom:2.5rem;">Apri in Google Maps</button>
+    <button class="btn-ghost" onclick="window.open('https://maps.google.com/?q=${encodeURIComponent(ADDR)}','_blank','noopener,noreferrer')" style="background:var(--bg-warm);margin-bottom:2.5rem;">Apri in Google Maps</button>
     <p class="eyebrow">Orari</p>
     ${orari.map(r=>`<div style="display:flex;justify-content:space-between;padding:.85rem 0;border-bottom:1px solid var(--border);"><span style="font-size:14px;color:var(--muted);">${esc(r[0])}</span><span style="font-size:14px;color:${r[2]?'#8A2020':'var(--text)'}">${esc(r[1])}</span></div>`).join("")}
     <div style="margin-top:2.5rem;">
       <a href="tel:+${PHONE}" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">${PHONE.replace(/^39/,'0')}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Tel / WhatsApp</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
       <a href="mailto:${EMAIL}" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">${EMAIL}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Email</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
-      <a href="https://instagram.com/${IG}" target="_blank" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">@${IG}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Instagram</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
+      <a href="https://instagram.com/${IG}" target="_blank" rel="noopener noreferrer" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">@${IG}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Instagram</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
     </div>
   </div>`;
 }
