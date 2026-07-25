@@ -1,12 +1,89 @@
 [
   {
+    "id": 1785003736349,
+    "titolo": "Difettosa",
+    "autore": "Augelli Nagla",
+    "editore": "Fandango",
+    "territorio": "Identità e corpi",
+    "descrizione": "Il racconto ironico e spiazzante di una vita non comune. Il viaggio di una persona disabile e straniera nel pianeta Italia.",
+    "copertina": "difettosa.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785003417508,
+    "titolo": "Fango più dolce del miele. Voci dell'Albania comunista",
+    "autore": "rejmer margo",
+    "editore": "Keller",
+    "territorio": "Sguardi dal mondo",
+    "descrizione": "Nel libro la reporter e scrittrice polacca Margo Rejmer non solo ci svela un aspetto della Storia rimasto sconosciuto ai più, quello dell'Albania durante il periodo della Guerra fredda, ma intreccia abilmente un coro di voci e testimonianze con una sensibilità e uno sguardo unici.",
+    "copertina": "fango.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785002959626,
+    "titolo": "Frammenti di Kurdistan",
+    "autore": "Marilungo F. (cur.)",
+    "editore": "alessandro polidoro editore",
+    "territorio": "Sguardi dal mondo",
+    "descrizione": "Dal carcere alla montagna, dalla protesta delle madri dei desaparecidos curdi alle linee di confine che come cicatrici dividono in quattro parti una geografia mai diventata nazione. La letteratura curda riflette la condizione politica del paese da cui nasce",
+    "copertina": "kurdistan.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785002769038,
+    "titolo": "Morire e vivere in Palestina. Cura e riproduzione sociale contro il genocidio",
+    "autore": "Bhattacharya Tithi",
+    "editore": "Alegre",
+    "territorio": "Sguardi dal mondo",
+    "descrizione": "Dal 7 ottobre 2023 abbiamo assistito a Gaza a un genocidio in diretta streaming. Sono decenni, però, che Israele porta avanti un lento \"genocidio per logoramento\". Ma, nonostante tutto, la creazione della vita palestinese continua ad andare avanti. Grazie a una lunga tradizione di solidarietà sociale, che vede i membri delle comunità sostenersi a vicenda attraverso reti di cura reciproca, si costituiscono originali forme di sussistenza materiale e culturale. Si scopre così lo spirito di resistenza, Sumud, delle pratiche di riproduzione sociale delle comunità palestinesi, in un contesto in cui la vita stessa è un atto quotidiano di ribellione",
+    "copertina": "palestina.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785002410424,
+    "titolo": "Persone come noi",
+    "autore": "Jason Mott",
+    "editore": "NNE",
+    "territorio": "Dai margini",
+    "descrizione": "Commovente, ironico e spietato, Persone come noi è un viaggio che racconta le ferite e le contraddizioni dell'America di oggi, pervasa da una violenza da cui è impossibile sottrarsi.",
+    "copertina": "persone.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785002146896,
+    "titolo": "Cinquant'anni di lotte. interviste",
+    "autore": "Angela Davis",
+    "editore": "Minimum fax",
+    "territorio": "Dai margini",
+    "descrizione": "Angela Davis è diventata una delle figure più iconiche del ventesimo secolo. Sempre pronta a schierarsi pubblicamente dalla parte degli sfruttati e degli oppressi, ha scritto nel corso degli anni decine di saggi dedicati all'intersezione tra razza, classe sociale e genere, alla liberazione dei Neri, in America e non solo, e al sistema carcerario degli Stati Uniti.",
+    "copertina": "lotte.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785001661683,
+    "titolo": "elogio del margine-scrivere al buio",
+    "autore": "bell hooks",
+    "editore": "Tamu",
+    "territorio": "Dai margini",
+    "descrizione": "bell hooks mette il suo pensiero alla prova di argomenti ordinari: i rapporti familiari e di coppia, l'istruzione, l'uso del denaro, la pratica della scrittura. Il pensiero femminista deve parlare alle donne di condizione meno agiata, riconoscendo la storia particolare delle donne afroamericane",
+    "copertina": "elogio.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
     "id": 1784998244142,
     "titolo": "Tutto sull'amore",
     "autore": "bell hooks",
     "editore": "Il Saggiatore",
     "territorio": "Identità e corpi",
     "descrizione": "Perché abbiamo paura di parlare d'amore? \"Tutto sull'amore\" di bell hooks nasce da questa domanda che spesso genera imbarazzo, reticenza, e persino rabbia. E' fondamentale imparare ad avere cura di sé, scrive bell hooks, e riappropriarsi dell'amore come spazio in cui ciascun individuo si sente libero di parlare e di ascoltare senza timore ciò che lo agita dentro.",
-    "copertina": "amore.webp",
+    "copertina": "",
     "disponibilita": "Disponibile",
     "vetrina": true
   },
