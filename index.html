@@ -27,7 +27,7 @@ button,input,select,textarea{font-family:'Inter',sans-serif;font-weight:300;}
 a{text-decoration:none;color:inherit;} img{display:block;max-width:100%;}
 ::-webkit-scrollbar{display:none;} ::placeholder{color:var(--muted);opacity:.6;}
 :focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;border-radius:2px;}
-button{transition:transform .15s ease, opacity .15s ease, background .2s ease, border-color .2s ease;}
+button{transition:transform .15s ease, opacity .15s ease, background .2s ease, border-color .2s ease; cursor:pointer;}
 button:active{transform:scale(.96);}
 @media (prefers-reduced-motion:reduce){ *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;} }
 #app{max-width:var(--appmax);margin:0 auto;background:var(--bg);position:relative;min-height:100vh;}
@@ -59,8 +59,6 @@ header.site-header .logo{background:none;border:none;font-family:'Playfair Displ
 input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px solid var(--border);background:none;font-size:15px;color:var(--text);outline:none;} textarea{resize:none;min-height:70px;}
 .photo-box{position:relative;overflow:hidden;} .photo-box img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1;transition:transform .5s ease;} .photo-box .fallback{position:absolute;inset:0;z-index:0;}
 @media (hover:hover){ .photo-box:hover img{transform:scale(1.06);} }
-.scroll-cue{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:2;animation:bob 2.2s ease-in-out infinite;opacity:.7;}
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
 .skel{background:linear-gradient(90deg,rgba(0,0,0,.04) 25%,rgba(0,0,0,.08) 37%,rgba(0,0,0,.04) 63%);background-size:400% 100%;animation:skel-anim 1.4s ease infinite;border-radius:8px;}
 @keyframes skel-anim{0%{background-position:100% 50%;}100%{background-position:0 50%;}}
 .hero{position:relative;height:100dvh;min-height:520px;overflow:hidden;background:linear-gradient(160deg,#2A3A28 0%,var(--dark-mid) 100%);}
@@ -75,6 +73,8 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
 .hero .cta-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:100px;padding:.85rem 1.6rem;font-size:12.5px;letter-spacing:.04em;cursor:pointer;backdrop-filter:blur(6px);}
 @media (min-width:720px){ .hero h1{font-size:76px;} .hero .content{padding:0 4rem 6rem;} .hero .sub{max-width:380px;} }
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.scroll-cue{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:2;animation:bob 2.2s ease-in-out infinite;opacity:.7;cursor:pointer;}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
 .oggi-card{background:var(--dark);border-radius:16px;padding:1.5rem 1.6rem;}
 .oggi-row{display:flex;align-items:center;gap:12px;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.07);}
 .oggi-row:last-child{border-bottom:none;}
@@ -93,7 +93,7 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
 @media (hover:hover){ .territorio-tile:hover{transform:scale(1.03);z-index:1;} .territorio-tile:hover .grad{opacity:.6;} }
 @media (min-width:720px){ .territorio-tile{height:210px;} }
 .grid-vetrina{display:flex;flex-direction:column;} @media (min-width:720px){ .grid-vetrina{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;} .grid-vetrina .vetrina-item{border:1px solid var(--border);border-radius:12px;padding:1rem;flex-direction:column;} .grid-vetrina .vetrina-cover{width:100%;height:170px;} }
-.vetrina-item{display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid var(--border);padding:1.25rem 0;}
+.vetrina-item{display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid var(--border);padding:1.25rem 0;cursor:pointer;}
 .vetrina-cover{width:52px;height:76px;border-radius:4px;flex-shrink:0;overflow:hidden;background-size:cover;background-position:center;}
 .grid-books{display:block;} @media (min-width:720px){ .grid-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;} .grid-books .book-item{border:1px solid var(--border);border-radius:12px;padding:1rem;} }
 .book-item{border-bottom:1px solid var(--border);padding:1.25rem 0;cursor:pointer;}
@@ -116,7 +116,7 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
     <div class="bar">
       <button class="logo" id="logo-btn" onclick="navigate('home')">I Funamboli</button>
       <nav class="desktop-nav" id="desktop-nav"></nav>
-      <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+      <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </header>
   <div id="menu-overlay"><nav id="menu-nav"></nav></div>
@@ -138,21 +138,19 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
 <div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt=""></div>
 
 <script>
-function openLightbox(src){ if(!src) return; document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
-/* ============ CONFIG DI DEFAULT ============ */
+/* ============ CONFIG ============ */
 let PHONE="390883011817", EMAIL="ifunamboli@libero.it", IG="funamboli", ADDR="Via Madonna degli Angeli 35, Barletta";
 let SITE_NAME="I Funamboli", RAGIONE_SOCIALE="I Funamboli", PIVA="08307620727";
 let PRENOTAZIONI_ATTIVE=true, PRENOTAZIONI_MSG="Prenotazioni sospese momentaneamente — scrivici comunque, troviamo una soluzione.";
 let SHOP_ATTIVO=false;
+
 const DATA_URLS={eventi:"./dati/eventi.json",gdl:"./dati/gdl.json",libri:"./dati/libri.json",oggi:"./dati/oggi.json",immagini:"./dati/immagini.json",homepage:"./dati/homepage.json",impostazioni:"./dati/impostazioni.json",scaffali:"./dati/scaffali.json",testi:"./dati/testi.json",shop:"./dati/shop.json"};
 
-let SITE_IMG={hero:"hero.jpg",chisiamo1:"interno.jpg",chisiamo2:"te.jpg",chisiamo3:"caffe.jpg",tavolo:"sala-da-te.jpg",facciata:"facciata.jpg",galleria1:"",galleria2:"",galleria3:"",chiusura:""};
+let SITE_IMG={hero:"hero.jpg",chisiamo1:"interno.jpg",chisiamo2:"te.jpg",chisiamo3:"caffe.jpg",tavolo:"sala-da-te.jpg",facciata:"facciata.jpg",galleria1:"",galleria2:"",galleria3:"",chiusura:"",heroVideo:""};
 function siteImg(key){ return `./immagini/${SITE_IMG[key]||''}`; }
 
 const DEFAULT_ORARI=[["Lunedì","17.00 – 21.30",false],["Martedì","9.30 – 13.30 · 17.00 – 21.30",false],["Mercoledì","Riposo",true],["Giovedì","9.30 – 13.30 · 17.00 – 21.30",false],["Venerdì","9.30 – 13.30 · 17.00 – 21.30",false],["Sabato","9.30 – 13.30 · 17.00 – 21.30",false],["Domenica","9.30 – 13.30 · 17.00 – 21.30",false]];
 
-/* Testi di default — tutti sovrascrivibili da dati/testi.json */
 const DEFAULT_TESTI={
   sensoryText:"Qui dentro si respira piano. Pietra a vista, legno caldo, la luce che cade obliqua nel pomeriggio, una tazza calda tra le mani, il rumore delle pagine che si girano.",
   ritmoLine:"",
@@ -183,7 +181,7 @@ let TERRITORI=[
 const DEFAULT_TERRITORI=JSON.parse(JSON.stringify(TERRITORI));
 
 const SAMPLE={
-  eventi:[{id:1,titolo:"Presentazione: Legami invisibili",data:"2026-07-25",ora:"18:30",luogo:"I Funamboli",descrizione:"Un incontro con l'autrice per parlare di relazioni e distanza.",immagine:""}],
+  eventi:[{id:1,titolo:"Presentazione: Legami invisibili",data:"2026-07-25",ora:"18:30",luogo:"I Funamboli",descrizione:"Un incontro con l'autrice per parlare di relazioni e distanza.",immagine:"",instagram:""}],
   gdl:[{id:1,nome:"Inquietə",libro:"Stoner",autore:"John Williams",data:"2026-07-28",ora:"19:00",posti:"8",descrizione:"Un romanzo silenzioso su una vita intera.",immagine:""}],
   libri:[{id:1,titolo:"La vegetariana",autore:"Han Kang",editore:"Adelphi",territorio:"Identità e corpi",descrizione:"Un romanzo potente e poetico sulla libertà, la scelta e il corpo.",vetrina:true,copertina:"",disponibilita:"Disponibile"}],
   oggi:{frase:"In questa libreria, i libri si scelgono per ciò che fanno risuonare dentro.",fonte:"Dalla lavagna · I Funamboli",caffe:"",dolce:"",eventoStasera:"",postiGdl:""},
@@ -191,6 +189,7 @@ const SAMPLE={
   impostazioni:{telefono:"390883011817",email:"ifunamboli@libero.it",instagram:"funamboli",indirizzo:"Via Madonna degli Angeli 35, Barletta",nomeAttivita:"I Funamboli",ragioneSociale:"I Funamboli",piva:"08307620727",prenotazioniAttive:true,prenotazioniMessaggio:"Prenotazioni sospese momentaneamente — scrivici comunque, troviamo una soluzione.",shopAttivo:false,orari:DEFAULT_ORARI}
 };
 const SAMPLE_SHOP=[{id:1,nome:"Tè in foglie — Sencha",categoria:"Oggettistica tè",prezzo:"12€",descrizione:"Tè verde giapponese, confezione da 100g.",immagine:""}];
+
 const QUIZ=[
   {q:"Come stai oggi?",opts:["Ho bisogno di ispirazione","Voglio capire qualcosa di me","Cerco leggerezza","Ho bisogno di silenzio"]},
   {q:"Il mio stato d'animo è…",opts:["Inquieto","Nostalgico","Curioso","Stanco"]},
@@ -199,11 +198,14 @@ const QUIZ=[
 const QUIZ_MAP=[["Altrove","Identità e corpi","Legami","Ombre"],["Ombre","Dai margini","Sguardi dal mondo","Forme"],["Dai margini","Legami","Altrove","Identità e corpi"]];
 const NAV_ITEMS_ALL=[["home","Home"],["scaffali","Scaffali"],["eventi","Eventi"],["gdl","Gruppi di lettura"],["shop","Negozio"],["wishlist","Wishlist"],["tavolo","Prenota un tavolo"],["dove","Dove siamo"]];
 function navItems(){ return NAV_ITEMS_ALL.filter(([k])=> (k!=="shop"||SHOP_ATTIVO) && (k!=="tavolo"||PRENOTAZIONI_ATTIVE) ); }
+
 const WA_ICON='<svg class="wa-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.531 5.858L.057 23.428a.5.5 0 0 0 .515.572l5.701-1.493A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.93 0-3.74-.518-5.3-1.422l-.38-.224-3.938 1.031 1.05-3.836-.247-.395A9.93 9.93 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>';
 const AVAIL_STYLE={"Disponibile":["#E0EDE4","#2A5A20"],"In arrivo":["#F5E8C0","#8A6A10"],"Esaurito":["#F5DCD8","#8A2020"]};
 
+/* ============ STATE ============ */
 let state={section:"home",menuOpen:false,quizStep:-1,quizAns:[],quizRes:null,selTerr:null,selLibro:null,eventi:SAMPLE.eventi,gdl:SAMPLE.gdl,libri:SAMPLE.libri,oggi:SAMPLE.oggi,homepage:SAMPLE.homepage,impostazioni:SAMPLE.impostazioni,shop:SAMPLE_SHOP};
 
+/* ============ HELPERS ============ */
 function waLink(msg){return `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;}
 function openWA(msg){window.open(waLink(msg),"_blank","noopener,noreferrer");}
 function fmtDate(d){if(!d)return"";try{return new Date(d).toLocaleDateString("it-IT",{day:"numeric",month:"long"});}catch{return d;}}
@@ -211,6 +213,8 @@ function imgSrc(f){if(!f)return null;if(f.startsWith("http")||f.startsWith("data
 function esc(s){return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function jsAttr(s){ return String(s||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;").replace(/\n/g," "); }
 function coverStyle(l,fallbackColor){ const src=imgSrc(l.copertina); return src?`background-image:url('${src}');background-color:${fallbackColor||'#ddd'};background-size:cover;background-position:center;`:`background-color:${fallbackColor||'#ddd'};`; }
+function openLightbox(src){ if(!src) return; document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
 
 async function fetchJson(url,fallback){
   try{ const r=await fetch(url); if(!r.ok)throw new Error(); return await r.json(); }catch{ return fallback; }
@@ -244,9 +248,10 @@ async function loadData(){
     PRENOTAZIONI_ATTIVE=state.impostazioni.prenotazioniAttive!==false; PRENOTAZIONI_MSG=state.impostazioni.prenotazioniMessaggio||PRENOTAZIONI_MSG;
     SHOP_ATTIVO=!!state.impostazioni.shopAttivo;
   }
-  document.title="I Funamboli — Barletta".replace("I Funamboli",SITE_NAME);
+  document.title="Barletta — "+SITE_NAME;
   render();
 }
+
 function navigate(section, fromHistory){
   state.section=section; state.menuOpen=false; state.selTerr=null; state.selLibro=null; render();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -254,6 +259,20 @@ function navigate(section, fromHistory){
   document.title=(titles[section]?titles[section]+" — ":"")+SITE_NAME;
   if(!fromHistory){ try{ history.pushState({section}, "", "#"+section); }catch{} }
 }
+function toggleMenu(){ state.menuOpen=!state.menuOpen; render(); }
+
+function selectTerritorio(nome){
+  state.section="scaffali"; state.selTerr=nome; state.selLibro=null; render(); window.scrollTo({top:0,behavior:"smooth"});
+  try{ history.pushState({section:"scaffali",selTerr:nome}, "", "#scaffali"); }catch{}
+}
+function backToScaffali(){ history.back(); }
+function selectLibro(id,terrNome){
+  const libro=state.libri.find(l=>l.id==id);
+  state.section="scaffali"; state.selLibro=libro; state.selTerr=terrNome||(libro?libro.territorio:null)||null; render(); window.scrollTo({top:0,behavior:"smooth"});
+  try{ history.pushState({section:"scaffali",selTerr:state.selTerr,libroId:id}, "", "#scaffali"); }catch{}
+}
+function backToTerritorio(){ history.back(); }
+
 window.addEventListener("popstate", function(e){
   const s=e.state;
   if(s && s.section){
@@ -266,8 +285,8 @@ window.addEventListener("popstate", function(e){
   render();
   window.scrollTo({top:0,behavior:"smooth"});
 });
-function toggleMenu(){ state.menuOpen=!state.menuOpen; render(); }
 
+/* ============ RENDER: SHELL ============ */
 function renderShell(){
   const isHome=state.section==="home";
   const header=document.getElementById("site-header");
@@ -280,6 +299,7 @@ function renderShell(){
     s.style.background=(state.menuOpen||isHome)?"#fff":"var(--dark)";
     s.style.transform=state.menuOpen?(i===0?"rotate(45deg) translate(4px,4px)":i===2?"rotate(-45deg) translate(4px,-4px)":"scaleX(0)"):"none";
   });
+  document.getElementById("burger").setAttribute("aria-expanded", state.menuOpen?"true":"false");
   document.getElementById("menu-overlay").classList.toggle("open",state.menuOpen);
   document.getElementById("menu-nav").innerHTML=navItems().map(([k,l])=>`<button class="${state.section===k?'active':''}" onclick="navigate('${k}')">${l}</button>`).join("");
   document.getElementById("desktop-nav").innerHTML=navItems().map(([k,l])=>`<button style="color:${isHome?'rgba(255,255,255,.85)':'var(--text)'};border-bottom-color:${state.section===k?(isHome?'#fff':'var(--dark)'):'transparent'}" onclick="navigate('${k}')">${l}</button>`).join("");
@@ -316,6 +336,7 @@ function render(){
   else if(state.section==="shop") c.innerHTML=renderShop();
   else if(state.section==="privacy") c.innerHTML=renderPrivacy();
   else if(state.section==="cookie") c.innerHTML=renderCookie();
+  else c.innerHTML=renderHome();
   runFades();
 }
 function availPill(l){ if(!l.disponibilita) return ""; const [bg,col]=AVAIL_STYLE[l.disponibilita]||["#eee","#555"]; return `<span class="avail-pill" style="background:${bg};color:${col}">${esc(l.disponibilita)}</span>`; }
@@ -327,28 +348,44 @@ function renderOggiCard(){
   return `<div class="fade" style="padding:0 2rem;margin-top:-2.5rem;position:relative;z-index:3;"><div class="narrow oggi-card"><p class="eyebrow" style="color:var(--gold-light);margin-bottom:.9rem;">Oggi ai Funamboli</p>${righe.map(([ic,txt])=>`<div class="oggi-row"><span class="ic">${ic}</span><p>${esc(txt)}</p></div>`).join("")}</div></div>`;
 }
 
+/* ============ HOME ============ */
 function renderHome(){
   const hp=state.homepage||SAMPLE.homepage;
   const vetrina=state.libri.filter(l=>l.vetrina).length?state.libri.filter(l=>l.vetrina):state.libri.slice(0,3);
   let quizHtml="";
   if(state.quizStep===-1 && !state.quizRes){
-    quizHtml=`<div class="fade narrow" style="padding:2rem;"><p class="eyebrow" style="color:var(--gold-light)">Dimmi come stai</p><p class="serif" style="font-size:32px;color:#fff;line-height:1.35;margin-bottom:1rem;">Anche leggere è un equilibrio.</p><p style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:2.5rem;">Un passo alla volta. Tre domande per trovare il tuo territorio.</p><button onclick="quizStart()" style="background:none;border:1px solid rgba(255,255,255,.28);border-radius:100px;padding:.85rem 2rem;font-size:12px;color:#fff;letter-spacing:.08em;cursor:pointer;">Sali sul filo</button></div>`;
+    quizHtml=`<div class="fade narrow" style="padding:2rem;">
+      <p class="eyebrow" style="color:var(--gold-light)">Dimmi come stai</p>
+      <p class="serif" style="font-size:32px;color:#fff;line-height:1.35;margin-bottom:1rem;">Anche leggere è un equilibrio.</p>
+      <p style="font-size:14px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:2.5rem;">Un passo alla volta. Tre domande per trovare il tuo territorio.</p>
+      <button onclick="quizStart()" style="background:none;border:1px solid rgba(255,255,255,.28);border-radius:100px;padding:.85rem 2rem;font-size:12px;color:#fff;letter-spacing:.08em;">Sali sul filo</button>
+    </div>`;
   } else if(state.quizStep>=0 && !state.quizRes){
     const q=QUIZ[state.quizStep]; const wirePos=10+(state.quizStep/(QUIZ.length-1))*80;
-    quizHtml=`<div class="narrow" style="padding:2rem;"><div class="wire" style="--wire-pos:${wirePos}%"></div><div class="quiz-progress">${QUIZ.map((_,i)=>`<div class="${i<=state.quizStep?'done':''}"></div>`).join("")}</div><p class="serif" style="font-size:30px;color:#fff;line-height:1.4;margin:2.5rem 0 2.5rem;">${q.q}</p>${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="quizAnswer(${i})"><span class="dash"></span><span>${o}</span></button>`).join("")}</div>`;
+    quizHtml=`<div class="narrow" style="padding:2rem;">
+      <div class="wire" style="--wire-pos:${wirePos}%"></div>
+      <div class="quiz-progress">${QUIZ.map((_,i)=>`<div class="${i<=state.quizStep?'done':''}"></div>`).join("")}</div>
+      <p class="serif" style="font-size:30px;color:#fff;line-height:1.4;margin:2.5rem 0 2.5rem;">${q.q}</p>
+      ${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="quizAnswer(${i})"><span class="dash"></span><span>${o}</span></button>`).join("")}
+    </div>`;
   } else if(state.quizRes){
     const t=TERRITORI.find(t=>t.nome===state.quizRes);
     const sugg=state.libri.filter(l=>l.territorio===state.quizRes).slice(0,2);
-    quizHtml=`<div class="narrow" style="padding:2rem;"><div class="wire" style="--wire-pos:92%"></div>
+    quizHtml=`<div class="narrow" style="padding:2rem;">
+      <div class="wire" style="--wire-pos:92%"></div>
       <div class="result-card"><p class="eyebrow" style="color:var(--gold-light)">Hai trovato il tuo equilibrio</p><p class="serif" style="font-size:36px;color:#fff;line-height:1.15;margin-bottom:.75rem;">${t.nome}</p><p style="font-size:14px;color:rgba(255,255,255,.55);font-style:italic;line-height:1.8;">${t.frase}</p></div>
-      ${sugg.map(l=>`<div style="border-top:1px solid rgba(255,255,255,.08);padding:1rem 0;display:flex;justify-content:space-between;align-items:center;gap:10px;"><div><p style="color:#fff;font-size:14px;">${esc(l.titolo)}</p><p style="color:rgba(255,255,255,.45);font-size:12px;margin-top:2px;">${esc(l.autore||'')}</p></div><button onclick="openWA('Ciao! Vorrei prenotare &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}.')" style="background:none;border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:.4rem 1rem;font-size:11px;color:rgba(255,255,255,.72);cursor:pointer;flex-shrink:0;">Prenota</button></div>`).join("")}
-      <div style="display:flex;gap:8px;margin-top:1.5rem;flex-wrap:wrap;"><button onclick="shareResult('${t.nome}')" style="flex:1;min-width:140px;background:var(--gold-light);border:none;border-radius:100px;padding:.7rem 1.2rem;font-size:12px;color:#fff;cursor:pointer;font-weight:500;">Condividi il risultato</button><button onclick="quizReset()" style="background:none;border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:.7rem 1.2rem;font-size:12px;color:rgba(255,255,255,.55);cursor:pointer;">Riprova</button></div>
-      <button onclick="openWA('Ciao! Il quiz mi ha detto che il mio territorio è &quot;${t.nome}&quot;. Vorrei venire a scoprirlo di persona.')" style="width:100%;margin-top:.75rem;background:none;border:none;color:var(--gold-light);font-size:13px;text-decoration:underline;cursor:pointer;padding:.5rem 0;">Vieni a scoprirlo di persona →</button>
+      ${sugg.map(l=>`<div style="border-top:1px solid rgba(255,255,255,.08);padding:1rem 0;display:flex;justify-content:space-between;align-items:center;gap:10px;"><div><p style="color:#fff;font-size:14px;">${esc(l.titolo)}</p><p style="color:rgba(255,255,255,.45);font-size:12px;margin-top:2px;">${esc(l.autore||'')}</p></div><button onclick="openWA('Ciao! Vorrei prenotare &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}.')" style="background:none;border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:.4rem 1rem;font-size:11px;color:rgba(255,255,255,.72);flex-shrink:0;">Prenota</button></div>`).join("")}
+      <div style="display:flex;gap:8px;margin-top:1.5rem;flex-wrap:wrap;">
+        <button onclick="shareResult('${t.nome}')" style="flex:1;min-width:140px;background:var(--gold-light);border:none;border-radius:100px;padding:.7rem 1.2rem;font-size:12px;color:#fff;font-weight:500;">Condividi il risultato</button>
+        <button onclick="quizReset()" style="background:none;border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:.7rem 1.2rem;font-size:12px;color:rgba(255,255,255,.55);">Riprova</button>
+      </div>
+      <button onclick="openWA('Ciao! Il quiz mi ha detto che il mio territorio è &quot;${t.nome}&quot;. Vorrei venire a scoprirlo di persona.')" style="width:100%;margin-top:.75rem;background:none;border:none;color:var(--gold-light);font-size:13px;text-decoration:underline;padding:.5rem 0;">Vieni a scoprirlo di persona →</button>
     </div>`;
   }
+
   return `
   <div class="hero">
-    ${SITE_IMG.heroVideo ? `<video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><source src="./immagini/${SITE_IMG.heroVideo}" type="video/mp4"></video>` : `<img src="${siteImg('hero')}" alt="I Funamboli — interno libreria" loading="eager" fetchpriority="high" decoding="async" onerror="this.style.display='none'">`}
+    ${SITE_IMG.heroVideo ? `<video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><source src="${siteImg('heroVideo').replace('.'+((SITE_IMG.hero||'').split('.').pop()||'jpg'),'')}"></video><img src="${siteImg('hero')}" alt="" style="display:none;">` : `<img src="${siteImg('hero')}" alt="I Funamboli — interno libreria" loading="eager" fetchpriority="high" decoding="async" onerror="this.style.display='none'">`}
     <div class="overlay"></div>
     <div class="content">
       <p class="tag">${esc(hp.heroTag)}</p>
@@ -356,13 +393,17 @@ function renderHome(){
       <p class="sub">${esc(hp.heroSub)}</p>
       <div class="cta-row"><button class="cta-primary" onclick="navigate('scaffali')">${esc(hp.ctaLibro)}</button>${PRENOTAZIONI_ATTIVE?`<button class="cta-secondary" onclick="navigate('tavolo')">${esc(hp.ctaTavolo)}</button>`:""}</div>
     </div>
-    <div class="scroll-cue" onclick="document.getElementById('chi-siamo').scrollIntoView({behavior:'smooth'})" style="cursor:pointer;">
+    <div class="scroll-cue" onclick="document.getElementById('chi-siamo').scrollIntoView({behavior:'smooth'})">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </div>
   ${renderOggiCard()}
   <div id="chi-siamo" class="fade" style="padding:5rem 2rem 3rem;">
-    <div class="narrow"><p class="eyebrow">Chi siamo</p><p class="serif" style="font-size:27px;line-height:1.5;margin-bottom:1.5rem;">${esc(hp.chiSiamoTitolo)}</p><p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:2rem;">${esc(hp.chiSiamoTesto)}</p></div>
+    <div class="narrow">
+      <p class="eyebrow">Chi siamo</p>
+      <p class="serif" style="font-size:27px;line-height:1.5;margin-bottom:1.5rem;">${esc(hp.chiSiamoTitolo)}</p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:2rem;">${esc(hp.chiSiamoTesto)}</p>
+    </div>
     <div class="narrow" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:16px;overflow:hidden;">
       <div class="photo-box" style="height:220px;grid-row:1/3;background:#3D4F38;cursor:pointer;"><div class="fallback" style="background:#3D4F38;"></div><img src="${siteImg('chisiamo1')}" alt="Interno libreria" loading="lazy" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></div>
       <div class="photo-box" style="height:108px;background:#8B6A40;cursor:pointer;"><div class="fallback" style="background:#8B6A40;"></div><img src="${siteImg('chisiamo2')}" alt="Tè" loading="lazy" decoding="async" onclick="openLightbox(this.src)" onerror="this.style.display='none'"></div>
@@ -377,12 +418,26 @@ function renderHome(){
   <div class="quiz-wrap">${quizHtml}</div>
   ${vetrina.length?`<div class="fade" style="padding:5rem 2rem;background:var(--bg-warm);"><div class="narrow" style="max-width:900px;">
     <p class="eyebrow">In vetrina questa settimana</p><p class="serif" style="font-size:26px;line-height:1.4;margin-bottom:2rem;">Scelti per te.</p>
-    <div class="grid-vetrina">${vetrina.slice(0,3).map(l=>{ const t=TERRITORI.find(t=>t.nome===l.territorio);
-      return `<div class="vetrina-item"><div class="vetrina-cover" style="${coverStyle(l,t?t.colore:'#333')}"></div><div style="flex:1">${t?`<span class="tag-pill" style="background:${t.bg};color:${t.colore}">${t.nome}</span>`:""} ${availPill(l)}<p class="serif" style="font-size:16px;margin:6px 0 2px;">${esc(l.titolo)}</p><p style="font-size:12px;color:var(--muted);margin-bottom:8px;">${esc(l.autore||'')}</p><button onclick="openWA('Ciao! Vorrei prenotare &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}.')" style="background:none;border:1px solid var(--border);border-radius:100px;padding:.4rem 1rem;font-size:11px;cursor:pointer;">Prenota</button></div></div>`; }).join("")}</div>
+    <div class="grid-vetrina">
+      ${vetrina.slice(0,3).map(l=>{
+        const t=TERRITORI.find(t=>t.nome===l.territorio);
+        return `<div class="vetrina-item" onclick="selectLibro(${l.id})">
+          <div class="vetrina-cover" style="${coverStyle(l,t?t.colore:'#333')}"></div>
+          <div style="flex:1">
+            ${t?`<span class="tag-pill" style="background:${t.bg};color:${t.colore}">${t.nome}</span>`:""} ${availPill(l)}
+            <p class="serif" style="font-size:16px;margin:6px 0 2px;">${esc(l.titolo)}</p>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">${esc(l.autore||'')}</p>
+            <button onclick="event.stopPropagation(); openWA('Ciao! Vorrei prenotare &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}.')" style="background:none;border:1px solid var(--border);border-radius:100px;padding:.4rem 1rem;font-size:11px;">Prenota</button>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
   </div></div>`:""}
   <div style="padding:5rem 0;">
     <div class="fade narrow" style="padding:0 2rem 2.5rem;max-width:900px;"><p class="eyebrow">${esc(TESTI.scaffaliEyebrow)}</p><p class="serif" style="font-size:28px;line-height:1.4;">${esc(TESTI.scaffaliTitolo)}<br><span style="color:var(--muted);font-size:22px;">${esc(TESTI.scaffaliSotto)}</span></p></div>
-    <div class="grid-terr" style="max-width:1080px;margin:0 auto;">${TERRITORI.map(t=>`<div class="territorio-tile fade" style="background:${t.bg}" onclick="navigate('scaffali')"><div class="grad" style="background:linear-gradient(135deg,${t.colore}33,${t.colore}88)"></div><div class="txt"><p style="color:${t.colore}">${t.nome}</p><p style="color:${t.colore}">${t.frase}</p></div></div>`).join("")}</div>
+    <div class="grid-terr" style="max-width:1080px;margin:0 auto;">
+      ${TERRITORI.map(t=>`<div class="territorio-tile fade" style="background:${t.bg}" onclick="selectTerritorio('${t.nome}')"><div class="grad" style="background:linear-gradient(135deg,${t.colore}33,${t.colore}88)"></div><div class="txt"><p style="color:${t.colore}">${t.nome}</p><p style="color:${t.colore}">${t.frase}</p></div></div>`).join("")}
+    </div>
     <div class="fade narrow" style="padding:2rem;"><button class="btn-dark" onclick="navigate('scaffali')" style="text-transform:uppercase;letter-spacing:.08em;">Esplora gli scaffali</button></div>
   </div>
   <div class="fade" style="padding:1rem 0 5rem;">
@@ -397,28 +452,20 @@ function renderHome(){
     <div class="fallback" style="background:linear-gradient(135deg,#4A3A20,var(--dark));"></div>
     <img src="${siteImg('tavolo')}" alt="Sala da tè" loading="lazy" decoding="async" onerror="this.style.display='none'">
     <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,22,16,.88) 0%,rgba(26,22,16,.25) 60%);z-index:1;"></div>
-    <div class="narrow" style="position:absolute;bottom:0;left:0;right:0;padding:2rem 2rem 2.5rem;z-index:2;"><p class="eyebrow" style="color:var(--gold-light)">${esc(TESTI.salaTeEyebrow)}</p><p class="serif" style="font-size:28px;color:#fff;line-height:1.3;margin-bottom:1.5rem;">${esc(TESTI.salaTeTitle)}</p>${PRENOTAZIONI_ATTIVE?`<button onclick="navigate('tavolo')" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.32);border-radius:100px;padding:.8rem 1.6rem;font-size:13px;cursor:pointer;">${WA_ICON} Prenota un tavolo</button>`:""}</div>
+    <div class="narrow" style="position:absolute;bottom:0;left:0;right:0;padding:2rem 2rem 2.5rem;z-index:2;">
+      <p class="eyebrow" style="color:var(--gold-light)">${esc(TESTI.salaTeEyebrow)}</p><p class="serif" style="font-size:28px;color:#fff;line-height:1.3;margin-bottom:1.5rem;">${esc(TESTI.salaTeTitle)}</p>
+      ${PRENOTAZIONI_ATTIVE?`<button onclick="navigate('tavolo')" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.32);border-radius:100px;padding:.8rem 1.6rem;font-size:13px;">${WA_ICON} Prenota un tavolo</button>`:""}
+    </div>
   </div>
-  ${(() => {
-    const oggiD=new Date(); oggiD.setHours(0,0,0,0);
-    const passatiHome=state.eventi.filter(e=>e.data&&new Date(e.data)<oggiD).sort((a,b)=>new Date(b.data)-new Date(a.data)).slice(0,3);
-    if(passatiHome.length===0) return "";
-    return `<div class="fade" style="padding:4rem 2rem;background:var(--bg-warm);"><div class="narrow" style="max-width:900px;">
-      <p class="eyebrow">Momenti già vissuti</p><p class="serif" style="font-size:26px;line-height:1.4;margin-bottom:2rem;">Cosa è successo qui.</p>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        ${passatiHome.map(e=>`<div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;">
-          ${imgSrc(e.immagine)?`<img src="${imgSrc(e.immagine)}" alt="${esc(e.titolo)}" loading="lazy" style="width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;">`:`<div style="width:52px;height:52px;border-radius:8px;background:var(--dark);flex-shrink:0;"></div>`}
-          <div style="flex:1"><p style="font-size:13.5px;font-weight:500;">${esc(e.titolo)}</p><p style="font-size:11.5px;color:var(--muted);margin-top:2px;">${fmtDate(e.data)}</p></div>
-          ${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" rel="noopener noreferrer" style="font-size:11.5px;color:var(--gold);text-decoration:underline;flex-shrink:0;">Guarda</a>`:""}
-        </div>`).join("")}
-      </div>
-    </div></div>`;
-  })()}
   <div class="fade photo-box" style="position:relative;height:360px;">
     <div class="fallback" style="background:linear-gradient(160deg,#2A3A28,var(--dark));"></div>
     <img src="${SITE_IMG.chiusura?siteImg('chiusura'):siteImg('hero')}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,22,16,.35),rgba(26,22,16,.82));z-index:1;"></div>
-    <div class="narrow" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;z-index:2;"><p class="serif" style="font-size:24px;font-style:italic;line-height:1.7;margin-bottom:1rem;color:#fff;">"${esc(state.oggi.frase)}"</p><p class="eyebrow" style="margin:0;color:rgba(255,255,255,.65);">${esc(state.oggi.fonte)}</p></div>
+    <div class="narrow" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;z-index:2;">
+      <p class="serif" style="font-size:24px;font-style:italic;line-height:1.7;margin-bottom:1rem;color:#fff;">"${esc(state.oggi.frase)}"</p>
+      <p class="eyebrow" style="margin:0 0 1.2rem;color:rgba(255,255,255,.65);">${esc(state.oggi.fonte)}</p>
+      ${TESTI.closingLine2?`<p style="font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.7;max-width:340px;">${esc(TESTI.closingLine2)}</p>`:""}
+    </div>
   </div>`;
 }
 function shareResult(territorio){
@@ -435,19 +482,25 @@ function quizAnswer(i){
 }
 function quizReset(){ state.quizStep=-1; state.quizAns=[]; state.quizRes=null; render(); }
 
+/* ============ SCAFFALI ============ */
 function renderScaffali(){
   if(state.selLibro){
     const l=state.selLibro, t=state.selTerr?TERRITORI.find(x=>x.nome===state.selTerr):TERRITORI.find(x=>x.nome===l.territorio);
     return `<div style="background:${t?t.bg:'var(--bg-warm)'};padding:5.5rem 1.5rem 2.5rem;display:flex;flex-direction:column;align-items:center;position:relative;">
-      <button onclick="backToTerritorio()" style="position:absolute;top:5rem;left:1.5rem;background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">← Scaffale</button>
-      <div style="width:150px;height:210px;border-radius:6px;box-shadow:10px 10px 40px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;${coverStyle(l,t?t.colore:'#333')}">${!l.copertina?`<p class="serif" style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.5;">${esc(l.titolo)}</p>`:""}</div>
+      <button onclick="backToTerritorio()" style="position:absolute;top:5rem;left:1.5rem;background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;">← Scaffale</button>
+      <div style="width:150px;height:210px;border-radius:6px;box-shadow:10px 10px 40px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;${coverStyle(l,t?t.colore:'#333')}">
+        ${!l.copertina?`<p class="serif" style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.5;">${esc(l.titolo)}</p>`:""}
+      </div>
     </div>
     <div class="fade in narrow" style="padding:2rem 1.5rem;">
       ${t?`<span class="tag-pill" style="background:${t.bg};color:${t.colore};margin-bottom:1rem;">${t.nome}</span>`:""} ${availPill(l)}
       <h1 class="serif" style="font-size:28px;line-height:1.3;margin:8px 0 4px;">${esc(l.titolo)}</h1>
       <p style="font-size:15px;color:var(--muted);margin-bottom:1.5rem;">${esc(l.autore||'')}${l.editore?' — '+esc(l.editore):''}</p>
       ${l.descrizione?`<p style="font-size:15px;line-height:1.9;margin-bottom:2.5rem;">${esc(l.descrizione)}</p>`:""}
-      <div style="border-top:1px solid var(--border);padding-top:1.5rem;display:flex;flex-direction:column;gap:10px;"><button class="btn-dark" onclick="openWA('Ciao! Vorrei prenotare &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}. È disponibile?')">Prenota su WhatsApp</button>${(l.disponibilita && l.disponibilita!=="Disponibile")?`<button class="btn-ghost" onclick="openWA('Ciao! Vorrei sapere quando arriva &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}.')">Avvisami quando arriva</button>`:""}</div>
+      <div style="border-top:1px solid var(--border);padding-top:1.5rem;display:flex;flex-direction:column;gap:10px;">
+        <button class="btn-dark" onclick="openWA('Ciao! Vorrei prenotare &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}. È disponibile?')">Prenota su WhatsApp</button>
+        ${(l.disponibilita && l.disponibilita!=="Disponibile")?`<button class="btn-ghost" onclick="openWA('Ciao! Vorrei sapere quando arriva &quot;${jsAttr(l.titolo)}&quot; di ${jsAttr(l.autore||'')}.')">Avvisami quando arriva</button>`:""}
+      </div>
     </div>`;
   }
   if(state.selTerr){
@@ -455,31 +508,37 @@ function renderScaffali(){
     const trovati=state.libri.filter(l=>l.territorio===state.selTerr);
     return `<div style="background:${t.bg};min-height:220px;display:flex;flex-direction:column;justify-content:flex-end;padding:5.5rem 1.5rem 2rem;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,${t.colore}22,${t.colore}55);"></div>
-      <button onclick="backToScaffali()" style="position:relative;background:none;border:none;color:${t.colore};opacity:.75;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-align:left;margin-bottom:1.5rem;cursor:pointer;">← Tutti gli scaffali</button>
+      <button onclick="backToScaffali()" style="position:relative;background:none;border:none;color:${t.colore};opacity:.75;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-align:left;margin-bottom:1.5rem;">← Tutti gli scaffali</button>
       <p class="serif fade in" style="font-size:34px;color:${t.colore};line-height:1.2;position:relative;">${t.nome}</p>
       <p class="fade in" style="font-size:14px;color:${t.colore};opacity:.75;font-style:italic;margin-top:.5rem;position:relative;">${t.frase}</p>
     </div>
     <div class="narrow" style="padding:1.5rem;max-width:1080px;">
-      ${trovati.length===0?`<div style="text-align:center;padding:3rem 0;color:var(--muted);"><p class="serif" style="font-size:20px;margin-bottom:.5rem;">Nessun libro qui, per ora.</p><p style="font-size:13px;margin-bottom:1.5rem;">Passa da noi — ne abbiamo da consigliare.</p><button onclick="openWA('Ciao! Cerco qualcosa nel territorio &quot;${t.nome}&quot;. Potete aiutarmi?')" style="display:inline-flex;align-items:center;gap:8px;background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.75rem 1.5rem;font-size:13px;cursor:pointer;">Chiedi su WhatsApp</button><button onclick="navigate('wishlist')" style="display:block;margin:1rem auto 0;background:none;border:none;color:var(--muted);font-size:12.5px;text-decoration:underline;cursor:pointer;">Oppure aggiungilo alla wishlist →</button></div>`:
-      `<div class="grid-books">${trovati.map(l=>`<div class="book-item fade in" onclick='selectLibro(${l.id},"${t.nome}")'><div class="book-cover" style="${coverStyle(l,t.colore)}"></div><p class="serif" style="font-size:17px;margin-bottom:4px;">${esc(l.titolo)}</p><p style="font-size:13px;color:var(--muted);">${esc(l.autore||'')}${l.editore?' · '+esc(l.editore):''}</p><p style="margin-top:6px;">${availPill(l)}</p>${l.descrizione?`<p style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.7;">${esc(l.descrizione).slice(0,120)}${l.descrizione.length>120?'…':''}</p>`:""}</div>`).join("")}</div>`}
+      ${trovati.length===0?`<div style="text-align:center;padding:3rem 0;color:var(--muted);">
+        <p class="serif" style="font-size:20px;margin-bottom:.5rem;">Nessun libro qui, per ora.</p>
+        <p style="font-size:13px;margin-bottom:1.5rem;">Passa da noi — ne abbiamo da consigliare.</p>
+        <button onclick="openWA('Ciao! Cerco qualcosa nel territorio &quot;${t.nome}&quot;. Potete aiutarmi?')" style="display:inline-flex;align-items:center;gap:8px;background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.75rem 1.5rem;font-size:13px;">Chiedi su WhatsApp</button>
+        <button onclick="navigate('wishlist')" style="display:block;margin:1rem auto 0;background:none;border:none;color:var(--muted);font-size:12.5px;text-decoration:underline;">Oppure aggiungilo alla wishlist →</button>
+      </div>`:
+      `<div class="grid-books">${trovati.map(l=>`<div class="book-item fade in" onclick="selectLibro(${l.id})">
+        <div class="book-cover" style="${coverStyle(l,t.colore)}"></div>
+        <p class="serif" style="font-size:17px;margin-bottom:4px;">${esc(l.titolo)}</p>
+        <p style="font-size:13px;color:var(--muted);">${esc(l.autore||'')}${l.editore?' · '+esc(l.editore):''}</p>
+        <p style="margin-top:6px;">${availPill(l)}</p>
+        ${l.descrizione?`<p style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.7;">${esc(l.descrizione).slice(0,120)}${l.descrizione.length>120?'…':''}</p>`:""}
+      </div>`).join("")}</div>`}
     </div>`;
   }
   return `<div class="section-pad narrow" style="max-width:900px;"><p class="eyebrow fade in">${esc(TESTI.scaffaliEyebrow)}</p><p class="serif fade in" style="font-size:30px;line-height:1.4;">${esc(TESTI.scaffaliTitolo)}</p><p class="fade in" style="font-size:14px;color:var(--muted);margin-top:.5rem;">${esc(TESTI.scaffaliSotto)}</p></div>
-  <div class="grid-terr" style="max-width:1080px;margin:0 auto;">${TERRITORI.map(t=>`<div class="territorio-tile fade in" style="background:${t.bg}" onclick="selectTerritorio('${t.nome}')"><div class="grad" style="background:linear-gradient(135deg,${t.colore}22,${t.colore}66)"></div><div class="txt"><p style="color:${t.colore}">${t.nome}</p><p style="color:${t.colore}">${t.frase}</p></div></div>`).join("")}</div>
-  <div class="fade narrow" style="padding:2.5rem 1.5rem;"><button class="btn-dark" onclick="openWA('Ciao! Non so cosa cercare. Potete aiutarmi?')">Non sai da dove iniziare? Scrivici</button></div>`;
+  <div class="grid-terr" style="max-width:1080px;margin:0 auto;">
+    ${TERRITORI.map(t=>`<div class="territorio-tile fade in" style="background:${t.bg}" onclick="selectTerritorio('${t.nome}')"><div class="grad" style="background:linear-gradient(135deg,${t.colore}22,${t.colore}66)"></div><div class="txt"><p style="color:${t.colore}">${t.nome}</p><p style="color:${t.colore}">${t.frase}</p></div></div>`).join("")}
+  </div>
+  <div class="fade narrow" style="padding:2.5rem 1.5rem;">
+    <button class="btn-dark" onclick="openWA('Ciao! Non so cosa cercare. Potete aiutarmi?')">Non sai da dove iniziare? Scrivici</button>
+    <button onclick="navigate('wishlist')" style="width:100%;background:none;border:none;color:var(--muted);font-size:12.5px;text-decoration:underline;padding:1rem 0 0;">Non trovi il libro che cerchi? Aggiungilo alla wishlist →</button>
+  </div>`;
 }
-function selectTerritorio(nome){
-  state.section="scaffali"; state.selTerr=nome; state.selLibro=null; render(); window.scrollTo({top:0,behavior:"smooth"});
-  try{ history.pushState({section:"scaffali",selTerr:nome}, "", "#scaffali"); }catch{}
-}
-function backToScaffali(){ history.back(); }
-function selectLibro(id,terrNome){
-  const libro=state.libri.find(l=>l.id==id);
-  state.section="scaffali"; state.selLibro=libro; state.selTerr=terrNome||(libro?libro.territorio:null)||null; render(); window.scrollTo({top:0,behavior:"smooth"});
-  try{ history.pushState({section:"scaffali",selTerr:state.selTerr,libroId:id}, "", "#scaffali"); }catch{}
-}
-function backToTerritorio(){ history.back(); }
 
+/* ============ EVENTI ============ */
 function renderEventi(){
   const oggi=new Date(); oggi.setHours(0,0,0,0);
   const futuri=state.eventi.filter(e=>!e.data||new Date(e.data)>=oggi).sort((a,b)=>new Date(a.data)-new Date(b.data));
@@ -495,14 +554,15 @@ function renderEventi(){
         ${e.luogo?`<p style="font-size:12.5px;color:var(--muted);margin-bottom:.7rem;">${esc(e.luogo)}</p>`:""}
         ${e.descrizione?`<p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1rem;">${esc(e.descrizione)}</p>`:""}
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button onclick="openWA('Ciao! Vorrei prenotare un posto per questo evento: &quot;${jsAttr(e.titolo)}&quot; del ${fmtDate(e.data)}.')" style="background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem 1.4rem;font-size:12px;cursor:pointer;">Prenota posto</button>
+          <button onclick="openWA('Ciao! Vorrei prenotare un posto per questo evento: &quot;${jsAttr(e.titolo)}&quot; del ${fmtDate(e.data)}.')" style="background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem 1.4rem;font-size:12px;">Prenota posto</button>
           ${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:100px;padding:.6rem 1.2rem;font-size:12px;color:var(--text);">📷 Guarda il post</a>`:""}
         </div>
       </div></div></div>`).join("")}
   </div>
-  ${passati.length?`<div class="fade narrow" style="padding:0 1.5rem 2.5rem;max-width:900px;"><p class="eyebrow">Già svolti</p>${passati.slice(0,5).map(e=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;border-bottom:1px solid var(--border);opacity:.7;"><p style="font-size:14px;">${esc(e.titolo)}</p><div style="display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:8px;">${e.instagram?`<a href="${esc(e.instagram)}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:underline;">Guarda il post</a>`:""}<p style="font-size:12px;color:var(--muted);">${fmtDate(e.data)}</p></div></div>`).join("")}</div>`:""}`;
+  ${passati.length?`<div class="fade narrow" style="padding:0 1.5rem 2.5rem;max-width:900px;"><p class="eyebrow">Già svolti</p>${passati.slice(0,5).map(e=>`<div style="display:flex;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--border);opacity:.55;"><p style="font-size:14px;">${esc(e.titolo)}</p><p style="font-size:12px;color:var(--muted);margin-left:8px;">${fmtDate(e.data)}</p></div>`).join("")}</div>`:""}`;
 }
 
+/* ============ GDL ============ */
 function renderGdl(){
   return `<div class="fade in" style="position:relative;height:260px;overflow:hidden;background:linear-gradient(135deg,#3A2A40,var(--dark-mid));">
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,22,16,.2),rgba(26,22,16,.8));"></div>
@@ -518,18 +578,21 @@ function renderGdl(){
       ${g.data?`<p style="font-size:13px;color:var(--gold);margin-bottom:4px;">Prossimo incontro: ${fmtDate(g.data)}${g.ora?' alle '+esc(g.ora):''}</p>`:""}
       ${g.posti!==undefined&&g.posti!==""?`<p style="margin-top:4px;">${urgente?`<span class="urgency">Ultimi posti — solo ${g.posti}!</span>`:posti===0?`<span style="font-size:13px;color:#8A2020;">Posti esauriti</span>`:`<span style="font-size:13px;color:#2A5A20;">${g.posti} posti disponibili</span>`}</p>`:""}
       ${g.descrizione?`<p style="font-size:14px;color:var(--muted);margin-top:8px;line-height:1.75;">${esc(g.descrizione)}</p>`:""}
-      <button onclick="openWA('Ciao! Vorrei iscrivermi al gruppo &quot;${jsAttr(g.nome)}&quot;.')" style="margin-top:12px;background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem 1.4rem;font-size:12px;cursor:pointer;">Iscriviti via WhatsApp</button>
+      <button onclick="openWA('Ciao! Vorrei iscrivermi al gruppo &quot;${jsAttr(g.nome)}&quot;.')" style="margin-top:12px;background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem 1.4rem;font-size:12px;">Iscriviti via WhatsApp</button>
     </div>`;}).join("")}
     <button class="btn-ghost fade in" onclick="openWA('Ciao! Vorrei informazioni sui gruppi di lettura de I Funamboli.')" style="display:flex;align-items:center;justify-content:center;gap:8px;">${WA_ICON} Scrivici per info sui gruppi</button>
   </div>`;
 }
+
+/* ============ WISHLIST ============ */
 function renderWishlist(){
   return `<div class="section-pad narrow" style="padding-bottom:2.5rem;"><p class="eyebrow fade in">${esc(TESTI.wishlistEyebrow)}</p><p class="serif fade in" style="font-size:28px;line-height:1.4;margin-bottom:.75rem;">${esc(TESTI.wishlistTitolo)}</p><p class="fade in" style="font-size:14px;color:var(--muted);line-height:1.8;">${esc(TESTI.wishlistTesto)}</p></div>
   <div class="fade narrow" style="padding:0 1.5rem 3rem;"><button class="btn-dark" onclick="openWA('Ciao! Vorrei essere avvisato/a quando arriva questo libro: ')">${WA_ICON} Scrivici il titolo su WhatsApp</button></div>`;
 }
+
+/* ============ SHOP ============ */
 function renderShop(){
   if(!SHOP_ATTIVO) return `<div class="section-pad narrow"><p style="color:var(--muted);">Sezione non disponibile.</p></div>`;
-  const cats=[...new Set(state.shop.map(p=>p.categoria).filter(Boolean))];
   return `<div class="section-pad narrow" style="padding-bottom:2rem;max-width:900px;">
     <p class="eyebrow fade in">Il negozio</p>
     <p class="serif fade in" style="font-size:30px;line-height:1.4;">Libri, oggetti, piccole cose belle.</p>
@@ -547,6 +610,8 @@ function renderShop(){
     </div>`).join("")}
   </div>`;
 }
+
+/* ============ TAVOLO ============ */
 function renderTavolo(){
   if(!PRENOTAZIONI_ATTIVE){
     return `<div class="section-pad narrow" style="padding-bottom:2.5rem;">
@@ -574,6 +639,8 @@ function inviaTavolo(){
   if(!nome||!data||!ora){ alert("Compila almeno nome, data e ora."); return; }
   openWA(`Ciao! Vorrei prenotare un tavolo.\n\nNome: ${nome}\nData: ${fmtDate(data)}\nOra: ${ora}\nPersone: ${persone}${note?`\nNote: ${note}`:""}`);
 }
+
+/* ============ DOVE ============ */
 function renderDove(){
   const orari=(state.impostazioni&&state.impostazioni.orari)||DEFAULT_ORARI;
   return `<div class="fade in photo-box" style="position:relative;height:260px;"><div class="fallback" style="background:linear-gradient(135deg,#C8B898,var(--dark-mid));"></div><img src="${siteImg('facciata')}" alt="Facciata I Funamboli" loading="lazy" decoding="async" onerror="this.style.display='none'"><div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,22,16,.15),rgba(26,22,16,.75));z-index:1;"></div><div class="narrow" style="position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem;z-index:2;"><p class="serif" style="font-size:30px;color:#fff;margin-bottom:.4rem;">Vieni a trovarci.</p><p style="font-size:14px;color:rgba(255,255,255,.55);">${esc(ADDR)}</p></div></div>
@@ -589,83 +656,53 @@ function renderDove(){
     </div>
   </div>`;
 }
+
+/* ============ LEGALE ============ */
 function renderPrivacy(){
   if(TESTI.privacyCustom && TESTI.privacyCustom.trim()){
-    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
+    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
     <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">${TESTI.privacyCustom.split(/\n\s*\n/).map(p=>`<p style="margin-bottom:1.2rem;">${esc(p).replace(/\n/g,"<br>")}</p>`).join("")}</div>`;
   }
-  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
+  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
   <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">
     <p style="margin-bottom:1.5rem;color:var(--muted);font-size:12.5px;">Informativa ai sensi degli artt. 13-14 del Regolamento UE 2016/679 (GDPR) e del D.Lgs. 196/2003 come modificato dal D.Lgs. 101/2018. Ultimo aggiornamento: luglio 2026.</p>
-
     <p style="font-weight:500;margin-bottom:.5rem;">1. Titolare del trattamento</p>
-    <p style="margin-bottom:1.5rem;">${esc(RAGIONE_SOCIALE)} — P.IVA ${esc(PIVA)} — sede in ${esc(ADDR)} — contatto: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>. Per qualsiasi richiesta relativa al trattamento dei tuoi dati personali puoi contattare il titolare ai recapiti indicati.</p>
-
+    <p style="margin-bottom:1.5rem;">${esc(RAGIONE_SOCIALE)} — P.IVA ${esc(PIVA)} — sede in ${esc(ADDR)} — contatto: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
     <p style="font-weight:500;margin-bottom:.5rem;">2. Tipologie di dati trattati</p>
-    <p style="margin-bottom:1.5rem;">Il sito, nella sua configurazione attuale, non prevede moduli di registrazione, aree riservate né raccolta automatica di dati personali dei visitatori tramite cookie tecnici propri o strumenti di misurazione. I soli dati personali oggetto di trattamento sono i dati di contatto (nome, numero di telefono, indirizzo email, contenuto della comunicazione) che l'interessato sceglie volontariamente di fornire scrivendo tramite WhatsApp, telefono o posta elettronica per richiedere informazioni, prenotare un tavolo o un posto a un evento, iscriversi a un gruppo di lettura o segnalare la disponibilità di un titolo (wishlist).</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">3. Finalità e base giuridica del trattamento</p>
-    <p style="margin-bottom:.5rem;">I dati sopra indicati sono trattati per le seguenti finalità:</p>
-    <p style="margin-bottom:.5rem;">— gestione delle richieste di prenotazione (tavolo, eventi, gruppi di lettura) e delle comunicazioni informative richieste dall'interessato, sulla base dell'esecuzione di misure precontrattuali adottate su richiesta dell'interessato stesso (art. 6, par. 1, lett. b, GDPR);</p>
-    <p style="margin-bottom:1.5rem;">— adempimento di obblighi di legge, quando applicabile (art. 6, par. 1, lett. c, GDPR). Il conferimento dei dati è facoltativo ma necessario per dare seguito alla richiesta; il mancato conferimento comporta l'impossibilità di evadere la richiesta stessa.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">4. Modalità del trattamento e misure di sicurezza</p>
-    <p style="margin-bottom:1.5rem;">Il trattamento è effettuato con strumenti manuali e informatici, con logiche strettamente correlate alle finalità indicate e, comunque, in modo da garantire la sicurezza e la riservatezza dei dati, adottando misure tecniche e organizzative adeguate al rischio.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">5. Destinatari dei dati e trattamenti affidati a terzi</p>
-    <p style="margin-bottom:.5rem;">I dati non sono oggetto di diffusione né di comunicazione a terzi per finalità di marketing. Il sito si avvale dei seguenti servizi di terze parti, ciascuno operante quale autonomo titolare del trattamento per i dati raccolti tramite le proprie piattaforme:</p>
-    <p style="margin-bottom:.5rem;">— <b>WhatsApp</b> (Meta Platforms Ireland Ltd., con possibile trattamento da parte di Meta Platforms, Inc., USA, sulla base delle Clausole Contrattuali Standard approvate dalla Commissione Europea): utilizzato come canale di contatto diretto. Informativa: <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" style="text-decoration:underline;">whatsapp.com/legal/privacy-policy</a>;</p>
-    <p style="margin-bottom:.5rem;">— <b>Google Fonts</b> (Google Ireland Ltd.): utilizzato per la visualizzazione dei caratteri tipografici del sito; comporta la trasmissione dell'indirizzo IP del visitatore ai server Google. Informativa: <a href="https://policies.google.com/privacy" target="_blank" style="text-decoration:underline;">policies.google.com/privacy</a>;</p>
-    <p style="margin-bottom:.5rem;">— <b>Google Maps</b> (Google Ireland Ltd.): collegamento esterno attivato solo su azione volontaria dell'utente, che viene indirizzato al sito di Google Maps;</p>
-    <p style="margin-bottom:1.5rem;">— <b>Instagram</b> (Meta Platforms Ireland Ltd.): collegamento esterno al profilo social del titolare.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">6. Trasferimento dei dati extra-UE</p>
-    <p style="margin-bottom:1.5rem;">Alcuni dei fornitori indicati al punto 5 (Meta, Google) hanno sede negli Stati Uniti e possono trattare dati anche al di fuori dello Spazio Economico Europeo. Tali trasferimenti avvengono sulla base di garanzie adeguate previste dagli artt. 44-49 GDPR, tra cui le Clausole Contrattuali Standard adottate dalla Commissione Europea.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">7. Periodo di conservazione</p>
-    <p style="margin-bottom:1.5rem;">I dati raccolti tramite le comunicazioni dirette (WhatsApp, email, telefono) sono conservati per il tempo necessario a evadere la richiesta e, successivamente, per il periodo strettamente necessario alla gestione dell'eventuale rapporto instauratosi (es. partecipazione a un gruppo di lettura), salvo termini diversi previsti da obblighi di legge. L'interessato può richiederne la cancellazione in qualsiasi momento, salvi gli obblighi di conservazione previsti dalla normativa vigente.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">8. Diritti dell'interessato</p>
-    <p style="margin-bottom:1.5rem;">Ai sensi degli artt. 15-22 GDPR, l'interessato ha diritto di ottenere in qualsiasi momento: accesso ai propri dati personali; rettifica o integrazione; cancellazione, quando ne ricorrano i presupposti; limitazione del trattamento; opposizione al trattamento; portabilità dei dati, ove applicabile. Le richieste possono essere inoltrate a <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">9. Reclamo all'Autorità di controllo</p>
-    <p style="margin-bottom:1.5rem;">Fatta salva ogni altra forma di tutela amministrativa o giurisdizionale, l'interessato che ritenga che il trattamento dei propri dati sia avvenuto in violazione della normativa vigente ha diritto di proporre reclamo al Garante per la protezione dei dati personali, secondo le modalità indicate su <a href="https://www.garanteprivacy.it" target="_blank" style="text-decoration:underline;">garanteprivacy.it</a>.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">10. Minori</p>
-    <p style="margin-bottom:1.5rem;">Il sito non è diretto a minori di 16 anni e il titolare non raccoglie consapevolmente dati personali riferiti a minori. Qualora ne venisse a conoscenza, provvederà alla cancellazione senza ritardo.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">11. Modifiche alla presente informativa</p>
-    <p style="margin-bottom:1.5rem;">Il titolare si riserva di modificare o aggiornare la presente informativa, anche in conseguenza di variazioni normative. Le modifiche saranno pubblicate su questa pagina con indicazione della data di ultimo aggiornamento.</p>
+    <p style="margin-bottom:1.5rem;">Il sito non prevede registrazione né raccolta automatica di dati tramite cookie propri. I soli dati trattati sono quelli forniti volontariamente scrivendo tramite WhatsApp, telefono o email per prenotazioni, iscrizioni o richieste di informazioni.</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">3. Finalità e base giuridica</p>
+    <p style="margin-bottom:1.5rem;">Gestione delle richieste ricevute, sulla base dell'esecuzione di misure precontrattuali richieste dall'interessato (art. 6.1.b GDPR). Il conferimento è facoltativo ma necessario per dare seguito alla richiesta.</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">4. Destinatari e servizi di terze parti</p>
+    <p style="margin-bottom:.5rem;">— <b>WhatsApp</b> (Meta Platforms Ireland Ltd.): canale di contatto diretto. <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">whatsapp.com/legal/privacy-policy</a></p>
+    <p style="margin-bottom:.5rem;">— <b>Google Fonts</b> (Google Ireland Ltd.): trasmissione dell'IP ai server Google. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">policies.google.com/privacy</a></p>
+    <p style="margin-bottom:1.5rem;">— <b>Google Maps</b> e <b>Instagram</b>: collegamenti esterni attivati solo su azione volontaria dell'utente.</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">5. Trasferimento extra-UE</p>
+    <p style="margin-bottom:1.5rem;">I fornitori sopra indicati hanno sede/trattano dati anche negli Stati Uniti, sulla base delle Clausole Contrattuali Standard previste dagli artt. 44-49 GDPR.</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">6. Conservazione</p>
+    <p style="margin-bottom:1.5rem;">I dati sono conservati per il tempo necessario a evadere la richiesta, salvi diversi termini di legge. Cancellazione su richiesta in qualsiasi momento.</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">7. Diritti dell'interessato</p>
+    <p style="margin-bottom:1.5rem;">Accesso, rettifica, cancellazione, limitazione, opposizione, portabilità (artt. 15-22 GDPR): scrivi a <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>. Reclamo al Garante: <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">garanteprivacy.it</a>.</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">8. Minori</p>
+    <p style="margin-bottom:1.5rem;">Il sito non è diretto a minori di 16 anni; il titolare non raccoglie consapevolmente dati riferiti a minori.</p>
   </div>`;
 }
 function renderCookie(){
   if(TESTI.cookieCustom && TESTI.cookieCustom.trim()){
-    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Informativa sui cookie</p></div>
+    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Informativa sui cookie</p></div>
     <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">${TESTI.cookieCustom.split(/\n\s*\n/).map(p=>`<p style="margin-bottom:1.2rem;">${esc(p).replace(/\n/g,"<br>")}</p>`).join("")}</div>`;
   }
-  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Informativa sui cookie</p></div>
+  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Questo sito non ti traccia</p></div>
   <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">
-    <p style="margin-bottom:1.5rem;color:var(--muted);font-size:12.5px;">Redatta in conformità alle Linee guida cookie e altri strumenti di tracciamento del Garante per la protezione dei dati personali (provvedimento n. 231/2021). Ultimo aggiornamento: luglio 2026.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">Cosa sono i cookie</p>
-    <p style="margin-bottom:1.5rem;">I cookie sono piccoli file di testo che i siti visitati inviano al terminale dell'utente, dove vengono memorizzati per essere ritrasmessi agli stessi siti in visite successive. Si distinguono in cookie tecnici (necessari al funzionamento del sito, esenti da obbligo di consenso) e cookie di profilazione (finalizzati a tracciare la navigazione o creare profili, soggetti a consenso preventivo).</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">Cookie utilizzati da questo sito</p>
-    <p style="margin-bottom:1.5rem;">Il sito, nella sua configurazione attuale, <b>non installa alcun cookie proprio</b>, né tecnico né di profilazione. Non sono utilizzati strumenti di analisi statistica (es. Google Analytics), pixel di tracciamento o cookie pubblicitari di terze parti. Non essendo installati cookie soggetti a consenso, il sito non presenta un banner di raccolta del consenso, in linea con quanto previsto dalle citate Linee guida del Garante per i siti che non utilizzano cookie non tecnici.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">Connessioni a servizi terzi non basate su cookie</p>
-    <p style="margin-bottom:1.5rem;">Per la visualizzazione dei caratteri tipografici, il sito richiama la libreria Google Fonts direttamente dai server di Google Ireland Ltd. Tale richiamo comporta la trasmissione dell'indirizzo IP del dispositivo dell'utente a Google, secondo la relativa informativa privacy, ma non comporta l'installazione di cookie sul dispositivo dell'utente.</p>
-
+    <p style="margin-bottom:1.5rem;">Il sito <b>non installa cookie di profilazione</b>, non utilizza Google Analytics e non salva dati nel tuo browser. Non essendo usati cookie non tecnici, non è necessario alcun banner di consenso, in linea con le Linee guida del Garante Privacy (provv. 231/2021).</p>
+    <p style="font-weight:500;margin-bottom:.5rem;">Unico elemento esterno</p>
+    <p style="margin-bottom:1.5rem;">I font "Playfair Display" e "Inter" caricati da Google Fonts, con trasmissione del tuo IP ai server Google — non è un cookie, ma una connessione di rete.</p>
     <p style="font-weight:500;margin-bottom:.5rem;">Link a piattaforme esterne</p>
-    <p style="margin-bottom:1.5rem;">Il sito contiene collegamenti ipertestuali a WhatsApp, Instagram e Google Maps. Qualora l'utente decida di seguire tali collegamenti, verrà indirizzato a siti o applicazioni di terze parti che possono installare propri cookie secondo le rispettive cookie policy, del tutto indipendenti da questo sito e non soggette al controllo del titolare.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">Gestione dei cookie dal browser</p>
-    <p style="margin-bottom:1.5rem;">Anche in assenza di cookie propri, l'utente può in qualsiasi momento verificare e gestire le preferenze relative ai cookie eventualmente presenti sul proprio dispositivo attraverso le impostazioni del browser utilizzato, che permettono di cancellare i cookie esistenti e/o bloccarne l'installazione futura.</p>
-
-    <p style="font-weight:500;margin-bottom:.5rem;">Aggiornamenti alla presente informativa</p>
-    <p style="margin-bottom:1.5rem;">La presente cookie policy potrà essere soggetta a modifiche in caso di introduzione di nuovi strumenti che comportino l'uso di cookie non tecnici; in tal caso il sito provvederà a implementare un apposito banner di raccolta del consenso conforme alla normativa vigente. Per domande: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
+    <p style="margin-bottom:1.5rem;">WhatsApp, Instagram e Google Maps possono usare propri cookie secondo le rispettive normative, indipendenti da questo sito.</p>
+    <p style="margin-bottom:1.5rem;">Domande: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
   </div>`;
 }
+
+/* ============ INIT ============ */
 loadData().then(function(){
   const s=(location.hash||"").slice(1);
   if(s && navItems().some(n=>n[0]===s)){ navigate(s, true); }

@@ -1,5 +1,71 @@
 [
   {
+    "id": 1785058253758,
+    "titolo": "Il giardiniere e la morte",
+    "autore": "gospodinov georgi",
+    "editore": "Voland",
+    "territorio": "Legami",
+    "descrizione": "Un romanzo su quanto dobbiamo ai nostri padri, su cosa ci fa essere quelli che siamo e una dichiarazione d'amore struggente: un figlio assiste il padre durante una lunga e crudele malattia. Lo ricorda lavorare in giardino, curare le piante da frutto, i fiori... pian piano il campo visivo si allarga ai vicini, ai conoscenti, all'intera Bulgaria povera e dignitosa. Con l'abituale maestria Georgi Gospodinov ci racconta la vita di un uomo e le storie che compongono un'esistenza, ogni esistenza. Perché la fine dei nostri padri è la fine di un mondo",
+    "copertina": "giardiniere.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785058094972,
+    "titolo": "La città del fuoco",
+    "autore": "alyan hala",
+    "editore": "Astarte",
+    "territorio": "Legami",
+    "descrizione": "I Nasr sono sparsi per il mondo. Una madre siriana, un padre libanese, tre figli americani. Tutti cresciuti tra migrazioni e nostalgie, con un unico punto fermo: la casa di famiglia a Beirut, simbolo di ciò che li tiene uniti - e di ciò da cui vorrebbero fuggire. Quando Idris decide di venderla, dopo averla ereditata alla morte del padre, l'intera famiglia si ritrova in Libano. Ma la riunione fa riemergere antiche ferite, amori perduti, gelosie, motivi di vergogna mai detti.",
+    "copertina": "fuoco.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785057755345,
+    "titolo": "I giorni del mare",
+    "autore": "adrian pierre",
+    "editore": "Atlantide",
+    "territorio": "Legami",
+    "descrizione": "È agosto, in Bretagna. Dopo molti anni, un giovane uomo torna nella grande casa di famiglia per passarvi l'estate. Nulla, in apparenza, sembra cambiato. Gli stessi sono i volti dei cugini e degli zii che ogni anno si ritrovano stretti intorno all'anziana nonna, stessi sono i giochi dei bambini più piccoli, stesso il mare impetuoso e irresistibile che lambisce gli asciugamani stesi al sole. Eppure qualcosa brilla nelle cose e nelle persone, la malinconia tenera e cristallina delle cose passate. Il tempo sta cambiando anche per lui. Con la fine dell'estate, verrà il momento di crescere e di diventare, dolorosamente, adulto. I giorni del mare è un romanzo di intensità assoluta in cui la nostalgia per le cose perdute trascolora nella speranza di quello che verrà e nella rivelazione inaspettata di ciò che significa amare e appartenere",
+    "copertina": "giornidelmare.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
+    "id": 1785057325355,
+    "titolo": "Cenere. Appunti da un lutto",
+    "autore": "Natangelo Mario",
+    "editore": "Rizzoli",
+    "territorio": "Albi",
+    "descrizione": "Si può scherzare su uno dei lutti più atroci, quello per un genitore? All'indomani della morte della madre, Natangelo rivolge le armi dell'ironia verso se stesso e inizia a pubblicare online un diario a fumetti. Disegna, vuole raccontare, prova a condividere il suo dolore una vignetta alla volta, una tavola alla volta. Ne emergono frammenti che viaggiano avanti e indietro nel tempo, un racconto dolce e doloroso, intimo e quotidiano, che - non rinunciando al sarcasmo e alla comicità - analizza la perdita e la mancanza.",
+    "copertina": "cenere.webp",
+    "disponibilita": "In arrivo",
+    "vetrina": false
+  },
+  {
+    "id": 1785057033918,
+    "titolo": "Orbit Orbit",
+    "autore": "Caparezza",
+    "editore": "sergio bonelli editore",
+    "territorio": "Albi",
+    "descrizione": "Un viaggio onirico disegnato da grandi firme e nuovi talenti del fumetto italiano. Folle e scatenato, colorato, divertente e allo stesso tempo intimo e personale, Orbit Orbit è un'avventura senza limiti.",
+    "copertina": "Orbit.webp",
+    "disponibilita": "Esaurito",
+    "vetrina": false
+  },
+  {
+    "id": 1785056421960,
+    "titolo": "Tutto Zanardi",
+    "autore": "Pazienza Andrea",
+    "editore": "Coconino press",
+    "territorio": "Albi",
+    "descrizione": "Il naso è affilato come una lama. Lo sguardo è quello del predatore. Non ha amici, ma complici: Colas, il bello, a cui nessuna sa resistere, e Petrilli, dal naso a pera, sempre inadeguato. Nel cuore di sbarbo custodisce un segreto. Il freddo, quello vero. Il suo nome è Zanardi, l'irriverenza fatta fumetto. Da «Giallo Scolastico» a «Zanardi medievale», la raccolta definitiva del personaggio più celebre di Andrea Pazienza. Un antieroe in perenne conflitto con i demoni dell'ipocrisia e del perbenismo",
+    "copertina": "zanardi.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
     "id": 1785003736349,
     "titolo": "Difettosa",
     "autore": "Augelli Nagla",

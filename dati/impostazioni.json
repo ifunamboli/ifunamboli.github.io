@@ -1,0 +1,49 @@
+{
+  "telefono": "390883011817",
+  "email": "ifunamboli@libero.it",
+  "instagram": "funamboli",
+  "indirizzo": "Via Madonna degli Angeli,35 Barletta",
+  "nomeAttivita": "I Funamboli",
+  "ragioneSociale": "I Funamboli snc di Lattanzio G. e Marino M.",
+  "piva": "08307620727",
+  "prenotazioniAttive": true,
+  "prenotazioniMessaggio": "Prenotazioni sospese momentaneamente — scrivici comunque, troviamo una soluzione.",
+  "shopAttivo": false,
+  "orari": [
+    [
+      "Lunedì",
+      "17.00 – 21.30",
+      false
+    ],
+    [
+      "Martedì",
+      "9.30 – 13.30 · 17.00 – 21.30",
+      false
+    ],
+    [
+      "Mercoledì",
+      "Riposo",
+      true
+    ],
+    [
+      "Giovedì",
+      "9.30 – 13.30 · 17.00 – 21.30",
+      false
+    ],
+    [
+      "Venerdì",
+      "9.30 – 13.30 · 17.00 – 21.30",
+      false
+    ],
+    [
+      "Sabato",
+      "9.30 – 13.30 · 17.00 – 21.30",
+      false
+    ],
+    [
+      "Domenica",
+      "9.30 – 13.30 · 17.00 – 21.30",
+      false
+    ]
+  ]
+}
