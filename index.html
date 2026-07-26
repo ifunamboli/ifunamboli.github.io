@@ -474,8 +474,9 @@ function selectTerritorio(nome){
 }
 function backToScaffali(){ history.back(); }
 function selectLibro(id,terrNome){
-  state.section="scaffali"; state.selLibro=state.libri.find(l=>l.id==id); state.selTerr=terrNome; render(); window.scrollTo({top:0,behavior:"smooth"});
-  try{ history.pushState({section:"scaffali",selTerr:terrNome,libroId:id}, "", "#scaffali"); }catch{}
+  const libro=state.libri.find(l=>l.id==id);
+  state.section="scaffali"; state.selLibro=libro; state.selTerr=terrNome||(libro?libro.territorio:null)||null; render(); window.scrollTo({top:0,behavior:"smooth"});
+  try{ history.pushState({section:"scaffali",selTerr:state.selTerr,libroId:id}, "", "#scaffali"); }catch{}
 }
 function backToTerritorio(){ history.back(); }
 
