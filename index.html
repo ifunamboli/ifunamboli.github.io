@@ -108,6 +108,21 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
 .lightbox{position:fixed;inset:0;z-index:500;background:rgba(10,8,6,.94);display:none;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out;}
 .lightbox.open{display:flex;}
 .lightbox img{max-width:100%;max-height:100%;border-radius:8px;}
+.cat-chip{display:inline-block;font-size:12px;padding:.5rem 1rem;border-radius:100px;border:1px solid var(--border);color:var(--muted);cursor:pointer;margin:0 8px 8px 0;background:#fff;}
+.cat-chip.active{background:var(--dark);color:#fff;border-color:var(--dark);}
+.grid-shop{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+@media (min-width:720px){ .grid-shop{grid-template-columns:repeat(3,1fr);gap:18px;} }
+@media (min-width:1100px){ .grid-shop{grid-template-columns:repeat(4,1fr);} }
+.shop-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;}
+.shop-card .shop-img{height:170px;position:relative;overflow:hidden;background:var(--bg-warm);}
+.shop-card .shop-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+@media (hover:hover){ .shop-card:hover .shop-img img{transform:scale(1.07);} }
+.shop-card .shop-cat{position:absolute;top:10px;left:10px;font-size:10px;letter-spacing:.04em;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.92);color:var(--dark);font-weight:500;z-index:2;}
+.shop-card .shop-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;}
+.shop-card .shop-nome{font-family:'Playfair Display',serif;font-size:15px;line-height:1.35;margin-bottom:4px;}
+.shop-card .shop-prezzo{font-size:15px;color:var(--gold);font-weight:500;margin-bottom:8px;}
+.shop-card .shop-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.shop-card .shop-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem;font-size:11.5px;width:100%;}
 </style>
 </head>
 <body>
@@ -203,7 +218,7 @@ const WA_ICON='<svg class="wa-icon" width="15" height="15" viewBox="0 0 24 24" f
 const AVAIL_STYLE={"Disponibile":["#E0EDE4","#2A5A20"],"In arrivo":["#F5E8C0","#8A6A10"],"Esaurito":["#F5DCD8","#8A2020"]};
 
 /* ============ STATE ============ */
-let state={section:"home",menuOpen:false,quizStep:-1,quizAns:[],quizRes:null,selTerr:null,selLibro:null,eventi:SAMPLE.eventi,gdl:SAMPLE.gdl,libri:SAMPLE.libri,oggi:SAMPLE.oggi,homepage:SAMPLE.homepage,impostazioni:SAMPLE.impostazioni,shop:SAMPLE_SHOP};
+let state={section:"home",menuOpen:false,quizStep:-1,quizAns:[],quizRes:null,selTerr:null,selLibro:null,shopCat:null,eventi:SAMPLE.eventi,gdl:SAMPLE.gdl,libri:SAMPLE.libri,oggi:SAMPLE.oggi,homepage:SAMPLE.homepage,impostazioni:SAMPLE.impostazioni,shop:SAMPLE_SHOP};
 
 /* ============ HELPERS ============ */
 function waLink(msg){return `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;}
@@ -304,6 +319,7 @@ function renderShell(){
   document.getElementById("menu-nav").innerHTML=navItems().map(([k,l])=>`<button class="${state.section===k?'active':''}" onclick="navigate('${k}')">${l}</button>`).join("");
   document.getElementById("desktop-nav").innerHTML=navItems().map(([k,l])=>`<button style="color:${isHome?'rgba(255,255,255,.85)':'var(--text)'};border-bottom-color:${state.section===k?(isHome?'#fff':'var(--dark)'):'transparent'}" onclick="navigate('${k}')">${l}</button>`).join("");
   const bnItems=[["home","Home",'<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>'],["scaffali","Scaffali",'<path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/>'],["eventi","Eventi",'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],["gdl","Gruppi",'<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>']]
+    .concat(SHOP_ATTIVO?[["shop","Negozio",'<circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.5 3h2l2.7 12.4a2 2 0 002 1.6h8.9a2 2 0 002-1.6L21.5 7H6.2"/>']]:[])
     .concat(PRENOTAZIONI_ATTIVE?[["tavolo","Prenota",'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>']]:[])
     .concat([["dove","Dove",'<path d="M12 21s7-7.5 7-12a7 7 0 10-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>']]);
   document.getElementById("bottom-nav").innerHTML=bnItems.map(([k,l,icon])=>`<button class="${state.section===k?'active':''}" onclick="navigate('${k}')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${icon}</svg><span>${l}</span></button>`).join("");
@@ -593,23 +609,35 @@ function renderWishlist(){
 /* ============ SHOP ============ */
 function renderShop(){
   if(!SHOP_ATTIVO) return `<div class="section-pad narrow"><p style="color:var(--muted);">Sezione non disponibile.</p></div>`;
-  return `<div class="section-pad narrow" style="padding-bottom:2rem;max-width:900px;">
+  const cats=[...new Set(state.shop.map(p=>p.categoria).filter(Boolean))];
+  const filtro=state.shopCat||null;
+  const items=filtro?state.shop.filter(p=>p.categoria===filtro):state.shop;
+  return `<div class="section-pad narrow" style="padding-bottom:1.5rem;max-width:1080px;">
     <p class="eyebrow fade in">Il negozio</p>
     <p class="serif fade in" style="font-size:30px;line-height:1.4;">Libri, oggetti, piccole cose belle.</p>
-    <p class="fade in" style="font-size:14px;color:var(--muted);margin-top:.5rem;">Scrivici per acquistare — ti mandiamo il link per pagare in un attimo.</p>
+    <p class="fade in" style="font-size:14px;color:var(--muted);margin-top:.5rem;margin-bottom:1.5rem;">Scrivici per acquistare — ti mandiamo il link per pagare in un attimo.</p>
+    ${cats.length>1?`<div class="fade in">
+      <span class="cat-chip ${!filtro?'active':''}" onclick="selectShopCat(null)">Tutti</span>
+      ${cats.map(c=>`<span class="cat-chip ${filtro===c?'active':''}" onclick="selectShopCat('${esc(c).replace(/'/g,"\\'")}')">${esc(c)}</span>`).join("")}
+    </div>`:""}
   </div>
-  <div class="narrow grid-books" style="padding:0 1.5rem 3rem;max-width:1080px;">
-    ${state.shop.length===0?`<p style="color:var(--muted);font-size:14px;">Nessun prodotto disponibile al momento.</p>`:
-    state.shop.map(p=>`<div class="book-item fade in" style="cursor:default;">
-      <div class="book-cover" style="${imgSrc(p.immagine)?`background-image:url('${imgSrc(p.immagine)}');background-color:#8A6A40`:'background-color:#8A6A40'}"></div>
-      ${p.categoria?`<span class="tag-pill" style="background:var(--bg-warm);color:var(--gold);margin-bottom:6px;">${esc(p.categoria)}</span>`:""}
-      <p class="serif" style="font-size:17px;margin-bottom:4px;">${esc(p.nome)}</p>
-      ${p.prezzo?`<p style="font-size:14px;color:var(--gold);font-weight:500;margin-bottom:6px;">${esc(p.prezzo)}</p>`:""}
-      ${p.descrizione?`<p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px;">${esc(p.descrizione)}</p>`:""}
-      <button class="btn-dark" onclick="openWA('Ciao! Vorrei acquistare &quot;${jsAttr(p.nome)}&quot;${p.prezzo?` (${jsAttr(p.prezzo)})`:""}. Potete mandarmi il link per il pagamento?')">${WA_ICON} Acquista su WhatsApp</button>
+  <div class="narrow grid-shop" style="padding:0 1.5rem 3rem;max-width:1080px;">
+    ${items.length===0?`<p style="color:var(--muted);font-size:14px;">Nessun prodotto disponibile al momento.</p>`:
+    items.map(p=>`<div class="shop-card fade in">
+      <div class="shop-img">
+        ${p.categoria?`<span class="shop-cat">${esc(p.categoria)}</span>`:""}
+        <img src="${imgSrc(p.immagine)||''}" alt="${esc(p.nome)}" loading="lazy" onerror="this.style.opacity='0'" style="background:linear-gradient(135deg,#DCEEEE,#8A6A40);">
+      </div>
+      <div class="shop-body">
+        <p class="shop-nome">${esc(p.nome)}</p>
+        ${p.prezzo?`<p class="shop-prezzo">${esc(p.prezzo)}</p>`:""}
+        ${p.descrizione?`<p class="shop-desc">${esc(p.descrizione)}</p>`:""}
+        <button class="shop-btn" onclick="openWA('Ciao! Vorrei acquistare &quot;${jsAttr(p.nome)}&quot;${p.prezzo?` (${jsAttr(p.prezzo)})`:""}. Potete mandarmi il link per il pagamento?')">${WA_ICON} Acquista</button>
+      </div>
     </div>`).join("")}
   </div>`;
 }
+function selectShopCat(cat){ state.shopCat=cat; render(); }
 
 /* ============ TAVOLO ============ */
 function renderTavolo(){
