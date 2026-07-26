@@ -218,7 +218,7 @@ const WA_ICON='<svg class="wa-icon" width="15" height="15" viewBox="0 0 24 24" f
 const AVAIL_STYLE={"Disponibile":["#E0EDE4","#2A5A20"],"In arrivo":["#F5E8C0","#8A6A10"],"Esaurito":["#F5DCD8","#8A2020"]};
 
 /* ============ STATE ============ */
-let state={section:"home",menuOpen:false,quizStep:-1,quizAns:[],quizRes:null,selTerr:null,selLibro:null,shopCat:null,eventi:SAMPLE.eventi,gdl:SAMPLE.gdl,libri:SAMPLE.libri,oggi:SAMPLE.oggi,homepage:SAMPLE.homepage,impostazioni:SAMPLE.impostazioni,shop:SAMPLE_SHOP};
+let state={section:"home",menuOpen:false,quizStep:-1,quizAns:[],quizRes:null,selTerr:null,selLibro:null,shopCat:null,selProdotto:null,eventi:SAMPLE.eventi,gdl:SAMPLE.gdl,libri:SAMPLE.libri,oggi:SAMPLE.oggi,homepage:SAMPLE.homepage,impostazioni:SAMPLE.impostazioni,shop:SAMPLE_SHOP};
 
 /* ============ HELPERS ============ */
 function waLink(msg){return `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;}
@@ -268,7 +268,7 @@ async function loadData(){
 }
 
 function navigate(section, fromHistory){
-  state.section=section; state.menuOpen=false; state.selTerr=null; state.selLibro=null; render();
+  state.section=section; state.menuOpen=false; state.selTerr=null; state.selLibro=null; state.selProdotto=null; render();
   window.scrollTo({top:0,behavior:"smooth"});
   const titles={home:"Barletta",scaffali:"Scaffali",eventi:"Eventi",gdl:"Gruppi di lettura",shop:"Negozio",wishlist:"Wishlist",tavolo:"Prenota un tavolo",dove:"Dove siamo",privacy:"Privacy",cookie:"Cookie"};
   document.title=(titles[section]?titles[section]+" — ":"")+SITE_NAME;
@@ -287,15 +287,21 @@ function selectLibro(id,terrNome){
   try{ history.pushState({section:"scaffali",selTerr:state.selTerr,libroId:id}, "", "#scaffali"); }catch{}
 }
 function backToTerritorio(){ history.back(); }
+function selectProdotto(id){
+  state.selProdotto=state.shop.find(p=>p.id==id); render(); window.scrollTo({top:0,behavior:"smooth"});
+  try{ history.pushState({section:"shop",prodottoId:id}, "", "#shop"); }catch{}
+}
+function backToShop(){ history.back(); }
 
 window.addEventListener("popstate", function(e){
   const s=e.state;
   if(s && s.section){
     state.section=s.section; state.selTerr=s.selTerr||null;
     state.selLibro=s.libroId?state.libri.find(l=>l.id==s.libroId):null;
+    state.selProdotto=s.prodottoId?state.shop.find(p=>p.id==s.prodottoId):null;
     state.menuOpen=false;
   } else {
-    state.section=(location.hash||"#home").slice(1); state.selTerr=null; state.selLibro=null; state.menuOpen=false;
+    state.section=(location.hash||"#home").slice(1); state.selTerr=null; state.selLibro=null; state.selProdotto=null; state.menuOpen=false;
   }
   render();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -609,6 +615,21 @@ function renderWishlist(){
 /* ============ SHOP ============ */
 function renderShop(){
   if(!SHOP_ATTIVO) return `<div class="section-pad narrow"><p style="color:var(--muted);">Sezione non disponibile.</p></div>`;
+  if(state.selProdotto){
+    const p=state.selProdotto;
+    return `<div class="photo-box" style="position:relative;height:340px;background:var(--bg-warm);">
+      <div class="fallback" style="background:linear-gradient(135deg,#DCEEEE,#8A6A40);"></div>
+      <img src="${imgSrc(p.immagine)||''}" alt="${esc(p.nome)}" onerror="this.style.opacity='0'">
+      <button onclick="backToShop()" style="position:absolute;top:5.5rem;left:1.5rem;z-index:2;background:rgba(255,255,255,.9);border:none;color:var(--dark);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1rem;border-radius:100px;">← Negozio</button>
+    </div>
+    <div class="fade in narrow" style="padding:2rem 1.5rem;">
+      ${p.categoria?`<span class="tag-pill" style="background:var(--bg-warm);color:var(--gold);margin-bottom:1rem;">${esc(p.categoria)}</span>`:""}
+      <h1 class="serif" style="font-size:26px;line-height:1.3;margin-bottom:.5rem;">${esc(p.nome)}</h1>
+      ${p.prezzo?`<p style="font-size:20px;color:var(--gold);font-weight:500;margin-bottom:1.5rem;">${esc(p.prezzo)}</p>`:""}
+      ${p.descrizione?`<p style="font-size:15px;line-height:1.9;margin-bottom:2.5rem;">${esc(p.descrizione)}</p>`:""}
+      <button class="btn-dark" onclick="openWA('Ciao! Vorrei acquistare &quot;${jsAttr(p.nome)}&quot;${p.prezzo?` (${jsAttr(p.prezzo)})`:""}. Potete mandarmi il link per il pagamento?')">${WA_ICON} Acquista su WhatsApp</button>
+    </div>`;
+  }
   const cats=[...new Set(state.shop.map(p=>p.categoria).filter(Boolean))];
   const filtro=state.shopCat||null;
   const items=filtro?state.shop.filter(p=>p.categoria===filtro):state.shop;
@@ -623,7 +644,7 @@ function renderShop(){
   </div>
   <div class="narrow grid-shop" style="padding:0 1.5rem 3rem;max-width:1080px;">
     ${items.length===0?`<p style="color:var(--muted);font-size:14px;">Nessun prodotto disponibile al momento.</p>`:
-    items.map(p=>`<div class="shop-card fade in">
+    items.map(p=>`<div class="shop-card fade in" style="cursor:pointer;" onclick="selectProdotto(${p.id})">
       <div class="shop-img">
         ${p.categoria?`<span class="shop-cat">${esc(p.categoria)}</span>`:""}
         <img src="${imgSrc(p.immagine)||''}" alt="${esc(p.nome)}" loading="lazy" onerror="this.style.opacity='0'" style="background:linear-gradient(135deg,#DCEEEE,#8A6A40);">
@@ -632,7 +653,7 @@ function renderShop(){
         <p class="shop-nome">${esc(p.nome)}</p>
         ${p.prezzo?`<p class="shop-prezzo">${esc(p.prezzo)}</p>`:""}
         ${p.descrizione?`<p class="shop-desc">${esc(p.descrizione)}</p>`:""}
-        <button class="shop-btn" onclick="openWA('Ciao! Vorrei acquistare &quot;${jsAttr(p.nome)}&quot;${p.prezzo?` (${jsAttr(p.prezzo)})`:""}. Potete mandarmi il link per il pagamento?')">${WA_ICON} Acquista</button>
+        <button class="shop-btn" onclick="event.stopPropagation(); openWA('Ciao! Vorrei acquistare &quot;${jsAttr(p.nome)}&quot;${p.prezzo?` (${jsAttr(p.prezzo)})`:""}. Potete mandarmi il link per il pagamento?')">${WA_ICON} Acquista</button>
       </div>
     </div>`).join("")}
   </div>`;
