@@ -1,9 +1,17 @@
 [
   {
+    "id": 1785084259949,
+    "nome": "Set giapponese",
+    "categoria": "Oggettistica tè",
+    "prezzo": "45euro + 9,9 spese di spedizione",
+    "descrizione": "Set da tè con due tazze in ceramica giapponese",
+    "immagine": "set.webp"
+  },
+  {
     "id": 1785063175151,
     "nome": "Tazza Korembi",
-    "categoria": "",
-    "prezzo": "34",
+    "categoria": "Oggettistica tè",
+    "prezzo": "34 euro + 9,9 spese di spedizione",
     "descrizione": "Tazza in ceramica doppia camera",
     "immagine": "tazza.webp"
   },
@@ -11,7 +19,7 @@
     "id": 1785063145887,
     "nome": "box emotiva",
     "categoria": "Box emotiva",
-    "prezzo": "30",
+    "prezzo": "30 euro + 9.9 spese di spedizioni",
     "descrizione": "Libro + infuso + quaderno + penna e segnalibro",
     "immagine": "box.webp"
   }
