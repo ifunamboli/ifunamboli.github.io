@@ -1,5 +1,29 @@
 [
   {
+    "id": 1785176821716,
+    "nome": "Geisha borraccia termica in vetro borosilicato",
+    "categoria": "Oggettistica tè",
+    "prezzo": "35 euro + 9,9 spese di spedizione",
+    "descrizione": "Geisha borraccia termica a doppia parete in vetro borosilicato con coperchio in acciaio inox, custodia in neoprene da 400ml",
+    "immagine": "geisha"
+  },
+  {
+    "id": 1785176555919,
+    "nome": "Borraccia termica Leeza",
+    "categoria": "Oggettistica tè",
+    "prezzo": "35 euro + 9,9 spese di spedizione",
+    "descrizione": "Eigenart Leeza borraccia termica a doppia parete, in acciaio inox, con chiusura e filtro da 500ml",
+    "immagine": "leeza.webp"
+  },
+  {
+    "id": 1785176117200,
+    "nome": "Tins giappo",
+    "categoria": "Oggettistica tè",
+    "prezzo": "35 euro  + 9,9 spese di spedizione",
+    "descrizione": "Lattine porta tè e infusi in stile giapponese da 100gr 2 pezzi",
+    "immagine": "latte.webp"
+  },
+  {
     "id": 1785084259949,
     "nome": "Set giapponese",
     "categoria": "Oggettistica tè",
