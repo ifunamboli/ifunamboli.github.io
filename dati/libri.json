@@ -1,5 +1,16 @@
 [
   {
+    "id": 1785224286321,
+    "titolo": "Parti femminili",
+    "autore": "jamison leslie",
+    "editore": "NNE",
+    "territorio": "Identità e corpi",
+    "descrizione": "A 35 anni la maternità, come un'onda anomala, spazza via l'identità personale e il rapporto di coppia, il lavoro e le aspirazioni, lasciando solo frantumi da rimettere insieme come un mosaico. Da quelle schegge, l'autrice ricompone se stessa, riflettendo sul significato di famiglia, sulla dipendenza che ha segnato la sua giovinezza, sul quotidiano che si trasfigura in arte.",
+    "copertina": "partifemminili.webp",
+    "disponibilita": "Disponibile",
+    "vetrina": false
+  },
+  {
     "id": 1785081348525,
     "titolo": "tutto il giorno alle corse dei cavalli e tutta la notte alla macchina da scrivere.",
     "autore": "bukowski charles",
@@ -268,7 +279,7 @@
     "titolo": "cadavere squisito",
     "autore": "barreca",
     "editore": "eris",
-    "territorio": "Identità e corpi",
+    "territorio": "Ombre",
     "descrizione": "antispecista",
     "copertina": "cad.jpg",
     "disponibilita": "Disponibile",
