@@ -26,6 +26,13 @@ html,body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;
 button,input,select,textarea{font-family:'Inter',sans-serif;font-weight:300;}
 a{text-decoration:none;color:inherit;} img{display:block;max-width:100%;}
 ::-webkit-scrollbar{display:none;} ::placeholder{color:var(--muted);opacity:.6;}
+@media (min-width:1100px){
+  html{scrollbar-color:var(--gold-light) transparent;scrollbar-width:thin;}
+  ::-webkit-scrollbar{display:block;width:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:100px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--gold-light);}
+}
 :focus-visible{outline:2px solid var(--gold-light);outline-offset:2px;border-radius:2px;}
 button{transition:transform .15s ease, opacity .15s ease, background .2s ease, border-color .2s ease; cursor:pointer;}
 button:active{transform:scale(.96);}
@@ -123,6 +130,13 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
 .shop-card .shop-prezzo{font-size:15px;color:var(--gold);font-weight:500;margin-bottom:8px;}
 .shop-card .shop-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .shop-card .shop-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--dark);color:#fff;border:none;border-radius:100px;padding:.6rem;font-size:11.5px;width:100%;}
+.back-link{background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;}
+.back-pill{position:absolute;z-index:2;background:rgba(255,255,255,.9);border:none;color:var(--dark);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1rem;border-radius:100px;cursor:pointer;}
+.info-link{display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);}
+.info-link p:last-child{color:var(--muted);font-size:11.5px;margin-top:1px;}
+.info-link .chev{color:var(--muted);font-size:20px;}
+.legal-h{font-weight:500;margin-bottom:.5rem;}
+.legal-p{margin-bottom:1.5rem;}
 </style>
 </head>
 <body>
@@ -176,6 +190,7 @@ const DEFAULT_TESTI={
   eventiEyebrow:"Calendario", eventiTitolo:"Prossimi eventi",
   gdlTitolo:"Leggere insieme cambia le cose.", gdlSottotitolo:"Inquietə · perché il silenzio non ci somiglia",
   wishlistEyebrow:"La tua wishlist", wishlistTitolo:"Un libro che cerchi ma non trovi ancora?", wishlistTesto:"Scrivicelo su WhatsApp. Appena arriva in negozio, ti avvisiamo lì.",
+  shopEyebrow:"Il negozio", shopTitolo:"Libri, oggetti, piccole cose belle.", shopSottotitolo:"Scrivici per acquistare — ti mandiamo il link per pagare in un attimo.",
   tavoloIntro:"Compila il modulo. Ti risponderemo su WhatsApp per confermare.",
   doveBullet1:"A pochi minuti a piedi dal centro storico e dal Castello di Barletta.", doveBullet2:"Parcheggio libero disponibile lungo le vie limitrofe.",
   closingLine2:"I Funamboli non è un punto d'arrivo. È un posto a cui tornare, ogni volta che serve un po' di equilibrio.",
@@ -524,7 +539,7 @@ function renderScaffali(){
   if(state.selLibro){
     const l=state.selLibro, t=state.selTerr?TERRITORI.find(x=>x.nome===state.selTerr):TERRITORI.find(x=>x.nome===l.territorio);
     return `<div style="background:${t?t.bg:'var(--bg-warm)'};padding:5.5rem 1.5rem 2.5rem;display:flex;flex-direction:column;align-items:center;position:relative;">
-      <button onclick="backToTerritorio()" style="position:absolute;top:5rem;left:1.5rem;background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;">← Scaffale</button>
+      <button onclick="backToTerritorio()" class="back-link" style="position:absolute;top:5rem;left:1.5rem;">← Scaffale</button>
       <div style="width:150px;height:210px;border-radius:6px;box-shadow:10px 10px 40px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;padding:1rem;text-align:center;${coverStyle(l,t?t.colore:'#333')}">
         ${!l.copertina?`<p class="serif" style="font-size:13px;color:rgba(255,255,255,.9);line-height:1.5;">${esc(l.titolo)}</p>`:""}
       </div>
@@ -635,7 +650,7 @@ function renderShop(){
     return `<div class="photo-box" style="position:relative;height:340px;background:var(--bg-warm);">
       <div class="fallback" style="background:linear-gradient(135deg,#DCEEEE,#8A6A40);"></div>
       <img src="${imgSrc(p.immagine)||''}" alt="${esc(p.nome)}" onerror="this.style.opacity='0'">
-      <button onclick="backToShop()" style="position:absolute;top:5.5rem;left:1.5rem;z-index:2;background:rgba(255,255,255,.9);border:none;color:var(--dark);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:.5rem 1rem;border-radius:100px;">← Negozio</button>
+      <button onclick="backToShop()" class="back-pill" style="top:5.5rem;left:1.5rem;">← Negozio</button>
     </div>
     <div class="fade in narrow" style="padding:2rem 1.5rem;">
       ${p.categoria?`<span class="tag-pill" style="background:var(--bg-warm);color:var(--gold);margin-bottom:1rem;">${esc(p.categoria)}</span>`:""}
@@ -649,9 +664,9 @@ function renderShop(){
   const filtro=state.shopCat||null;
   const items=filtro?state.shop.filter(p=>p.categoria===filtro):state.shop;
   return `<div class="section-pad narrow" style="padding-bottom:1.5rem;max-width:1080px;">
-    <p class="eyebrow fade in">Il negozio</p>
-    <p class="serif fade in" style="font-size:30px;line-height:1.4;">Libri, oggetti, piccole cose belle.</p>
-    <p class="fade in" style="font-size:14px;color:var(--muted);margin-top:.5rem;margin-bottom:1.5rem;">Scrivici per acquistare — ti mandiamo il link per pagare in un attimo.</p>
+    <p class="eyebrow fade in">${esc(TESTI.shopEyebrow)}</p>
+    <p class="serif fade in" style="font-size:30px;line-height:1.4;">${esc(TESTI.shopTitolo)}</p>
+    <p class="fade in" style="font-size:14px;color:var(--muted);margin-top:.5rem;margin-bottom:1.5rem;">${esc(TESTI.shopSottotitolo)}</p>
     ${cats.length>1?`<div class="fade in">
       <span class="cat-chip ${!filtro?'active':''}" onclick="selectShopCat(null)">Tutti</span>
       ${cats.map(c=>`<span class="cat-chip ${filtro===c?'active':''}" onclick="selectShopCat('${esc(c).replace(/'/g,"\\'")}')">${esc(c)}</span>`).join("")}
@@ -689,18 +704,30 @@ function renderTavolo(){
   return `<div class="fade in photo-box" style="position:relative;height:260px;"><div class="fallback" style="background:linear-gradient(135deg,#4A3A20,var(--dark));"></div><img src="${siteImg('tavolo')}" alt="Sala da tè" loading="lazy" decoding="async" onerror="this.style.display='none'"><div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,22,16,.2),rgba(26,22,16,.8));z-index:1;"></div><div class="narrow" style="position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem;z-index:2;"><p class="eyebrow" style="color:var(--gold-light)">${esc(TESTI.salaTeEyebrow)}</p><p class="serif" style="font-size:28px;color:#fff;line-height:1.3;">${esc(TESTI.salaTeTitle)}</p></div></div>
   <div class="fade narrow" style="padding:2.5rem 1.5rem;">
     <p style="font-size:14px;color:var(--muted);line-height:1.85;margin-bottom:2.5rem;">${esc(TESTI.tavoloIntro)}</p>
-    <input id="tv-nome" placeholder="Nome e cognome *">
-    <input id="tv-data" type="date" min="${new Date().toISOString().slice(0,10)}">
-    <select id="tv-ora"><option value="">Ora *</option>${orari.map(o=>`<option>${o}</option>`).join("")}</select>
-    <select id="tv-persone">${["1","2","3","4","5","6+"].map(n=>`<option>${n} ${n==="1"?"persona":"persone"}</option>`).join("")}</select>
-    <textarea id="tv-note" placeholder="Note (allergie, occasioni speciali…)"></textarea>
+    <input id="tv-nome" placeholder="Nome e cognome *" aria-label="Nome e cognome">
+    <input id="tv-data" type="date" min="${new Date().toISOString().slice(0,10)}" aria-label="Data" onchange="checkTavoloData(this)">
+    <select id="tv-ora" aria-label="Ora"><option value="">Ora *</option>${orari.map(o=>`<option>${o}</option>`).join("")}</select>
+    <select id="tv-persone" aria-label="Numero di persone">${["1","2","3","4","5","6"].map(n=>`<option>${n} ${n==="1"?"persona":"persone"}</option>`).join("")}</select>
+    <textarea id="tv-note" placeholder="Note (allergie, occasioni speciali…)" aria-label="Note"></textarea>
     <button class="btn-dark" onclick="inviaTavolo()" style="margin-top:1.5rem;">${WA_ICON} Invia richiesta su WhatsApp</button>
     <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:1rem;">Risposta entro poche ore.</p>
   </div>`;
 }
+function isMercoledi(dataStr){
+  if(!dataStr) return false;
+  const d=new Date(dataStr+"T00:00:00");
+  return d.getDay()===3;
+}
+function checkTavoloData(input){
+  if(isMercoledi(input.value)){
+    alert("Il mercoledì siamo chiusi — scegli un altro giorno.");
+    input.value="";
+  }
+}
 function inviaTavolo(){
   const nome=document.getElementById("tv-nome").value.trim(), data=document.getElementById("tv-data").value, ora=document.getElementById("tv-ora").value, persone=document.getElementById("tv-persone").value, note=document.getElementById("tv-note").value.trim();
   if(!nome||!data||!ora){ alert("Compila almeno nome, data e ora."); return; }
+  if(isMercoledi(data)){ alert("Il mercoledì siamo chiusi — scegli un altro giorno."); return; }
   openWA(`Ciao! Vorrei prenotare un tavolo.\n\nNome: ${nome}\nData: ${fmtDate(data)}\nOra: ${ora}\nPersone: ${persone}${note?`\nNote: ${note}`:""}`);
 }
 
@@ -714,9 +741,9 @@ function renderDove(){
     <p class="eyebrow">Orari</p>
     ${orari.map(r=>`<div style="display:flex;justify-content:space-between;padding:.85rem 0;border-bottom:1px solid var(--border);"><span style="font-size:14px;color:var(--muted);">${esc(r[0])}</span><span style="font-size:14px;color:${r[2]?'#8A2020':'var(--text)'}">${esc(r[1])}</span></div>`).join("")}
     <div style="margin-top:2.5rem;">
-      <a href="tel:+${PHONE}" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">${PHONE.replace(/^39/,'0')}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Tel / WhatsApp</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
-      <a href="mailto:${EMAIL}" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">${EMAIL}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Email</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
-      <a href="https://instagram.com/${IG}" target="_blank" rel="noopener noreferrer" style="display:flex;justify-content:space-between;padding:1.1rem 0;border-bottom:1px solid var(--border);"><div><p style="font-size:14px;">@${IG}</p><p style="font-size:11.5px;color:var(--muted);margin-top:1px;">Instagram</p></div><span style="color:var(--muted);font-size:20px;">›</span></a>
+      <a href="tel:+${PHONE}" class="info-link"><div><p style="font-size:14px;">${PHONE.replace(/^39/,'0')}</p><p>Tel / WhatsApp</p></div><span class="chev">›</span></a>
+      <a href="mailto:${EMAIL}" class="info-link"><div><p style="font-size:14px;">${EMAIL}</p><p>Email</p></div><span class="chev">›</span></a>
+      <a href="https://instagram.com/${IG}" target="_blank" rel="noopener noreferrer" class="info-link"><div><p style="font-size:14px;">@${IG}</p><p>Instagram</p></div><span class="chev">›</span></a>
     </div>
   </div>`;
 }
@@ -724,45 +751,45 @@ function renderDove(){
 /* ============ LEGALE ============ */
 function renderPrivacy(){
   if(TESTI.privacyCustom && TESTI.privacyCustom.trim()){
-    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
+    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" class="back-link" class="legal-p">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
     <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">${TESTI.privacyCustom.split(/\n\s*\n/).map(p=>`<p style="margin-bottom:1.2rem;">${esc(p).replace(/\n/g,"<br>")}</p>`).join("")}</div>`;
   }
-  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
+  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" class="back-link" class="legal-p">← Torna alla home</button><p class="eyebrow">Informativa privacy</p><p class="serif" style="font-size:26px;line-height:1.4;">Trattamento dei dati personali</p></div>
   <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">
     <p style="margin-bottom:1.5rem;color:var(--muted);font-size:12.5px;">Informativa ai sensi degli artt. 13-14 del Regolamento UE 2016/679 (GDPR) e del D.Lgs. 196/2003 come modificato dal D.Lgs. 101/2018. Ultimo aggiornamento: luglio 2026.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">1. Titolare del trattamento</p>
-    <p style="margin-bottom:1.5rem;">${esc(RAGIONE_SOCIALE)} — P.IVA ${esc(PIVA)} — sede in ${esc(ADDR)} — contatto: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">2. Tipologie di dati trattati</p>
-    <p style="margin-bottom:1.5rem;">Il sito non prevede registrazione né raccolta automatica di dati tramite cookie propri. I soli dati trattati sono quelli forniti volontariamente scrivendo tramite WhatsApp, telefono o email per prenotazioni, iscrizioni o richieste di informazioni.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">3. Finalità e base giuridica</p>
-    <p style="margin-bottom:1.5rem;">Gestione delle richieste ricevute, sulla base dell'esecuzione di misure precontrattuali richieste dall'interessato (art. 6.1.b GDPR). Il conferimento è facoltativo ma necessario per dare seguito alla richiesta.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">4. Destinatari e servizi di terze parti</p>
+    <p class="legal-h">1. Titolare del trattamento</p>
+    <p class="legal-p">${esc(RAGIONE_SOCIALE)} — P.IVA ${esc(PIVA)} — sede in ${esc(ADDR)} — contatto: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
+    <p class="legal-h">2. Tipologie di dati trattati</p>
+    <p class="legal-p">Il sito non prevede registrazione né raccolta automatica di dati tramite cookie propri. I soli dati trattati sono quelli forniti volontariamente scrivendo tramite WhatsApp, telefono o email per prenotazioni, iscrizioni o richieste di informazioni.</p>
+    <p class="legal-h">3. Finalità e base giuridica</p>
+    <p class="legal-p">Gestione delle richieste ricevute, sulla base dell'esecuzione di misure precontrattuali richieste dall'interessato (art. 6.1.b GDPR). Il conferimento è facoltativo ma necessario per dare seguito alla richiesta.</p>
+    <p class="legal-h">4. Destinatari e servizi di terze parti</p>
     <p style="margin-bottom:.5rem;">— <b>WhatsApp</b> (Meta Platforms Ireland Ltd.): canale di contatto diretto. <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">whatsapp.com/legal/privacy-policy</a></p>
     <p style="margin-bottom:.5rem;">— <b>Google Fonts</b> (Google Ireland Ltd.): trasmissione dell'IP ai server Google. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">policies.google.com/privacy</a></p>
-    <p style="margin-bottom:1.5rem;">— <b>Google Maps</b> e <b>Instagram</b>: collegamenti esterni attivati solo su azione volontaria dell'utente.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">5. Trasferimento extra-UE</p>
-    <p style="margin-bottom:1.5rem;">I fornitori sopra indicati hanno sede/trattano dati anche negli Stati Uniti, sulla base delle Clausole Contrattuali Standard previste dagli artt. 44-49 GDPR.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">6. Conservazione</p>
-    <p style="margin-bottom:1.5rem;">I dati sono conservati per il tempo necessario a evadere la richiesta, salvi diversi termini di legge. Cancellazione su richiesta in qualsiasi momento.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">7. Diritti dell'interessato</p>
-    <p style="margin-bottom:1.5rem;">Accesso, rettifica, cancellazione, limitazione, opposizione, portabilità (artt. 15-22 GDPR): scrivi a <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>. Reclamo al Garante: <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">garanteprivacy.it</a>.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">8. Minori</p>
-    <p style="margin-bottom:1.5rem;">Il sito non è diretto a minori di 16 anni; il titolare non raccoglie consapevolmente dati riferiti a minori.</p>
+    <p class="legal-p">— <b>Google Maps</b> e <b>Instagram</b>: collegamenti esterni attivati solo su azione volontaria dell'utente.</p>
+    <p class="legal-h">5. Trasferimento extra-UE</p>
+    <p class="legal-p">I fornitori sopra indicati hanno sede/trattano dati anche negli Stati Uniti, sulla base delle Clausole Contrattuali Standard previste dagli artt. 44-49 GDPR.</p>
+    <p class="legal-h">6. Conservazione</p>
+    <p class="legal-p">I dati sono conservati per il tempo necessario a evadere la richiesta, salvi diversi termini di legge. Cancellazione su richiesta in qualsiasi momento.</p>
+    <p class="legal-h">7. Diritti dell'interessato</p>
+    <p class="legal-p">Accesso, rettifica, cancellazione, limitazione, opposizione, portabilità (artt. 15-22 GDPR): scrivi a <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>. Reclamo al Garante: <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">garanteprivacy.it</a>.</p>
+    <p class="legal-h">8. Minori</p>
+    <p class="legal-p">Il sito non è diretto a minori di 16 anni; il titolare non raccoglie consapevolmente dati riferiti a minori.</p>
   </div>`;
 }
 function renderCookie(){
   if(TESTI.cookieCustom && TESTI.cookieCustom.trim()){
-    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Informativa sui cookie</p></div>
+    return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" class="back-link" class="legal-p">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Informativa sui cookie</p></div>
     <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">${TESTI.cookieCustom.split(/\n\s*\n/).map(p=>`<p style="margin-bottom:1.2rem;">${esc(p).replace(/\n/g,"<br>")}</p>`).join("")}</div>`;
   }
-  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" style="background:none;border:none;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem;">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Questo sito non ti traccia</p></div>
+  return `<div class="section-pad narrow" style="padding-bottom:2rem;"><button onclick="navigate('home')" class="back-link" class="legal-p">← Torna alla home</button><p class="eyebrow">Cookie policy</p><p class="serif" style="font-size:26px;line-height:1.4;">Questo sito non ti traccia</p></div>
   <div class="narrow" style="padding:0 1.5rem 4rem;font-size:14px;color:var(--text);line-height:1.85;">
-    <p style="margin-bottom:1.5rem;">Il sito <b>non installa cookie di profilazione</b>, non utilizza Google Analytics e non salva dati nel tuo browser. Non essendo usati cookie non tecnici, non è necessario alcun banner di consenso, in linea con le Linee guida del Garante Privacy (provv. 231/2021).</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">Unico elemento esterno</p>
-    <p style="margin-bottom:1.5rem;">I font "Playfair Display" e "Inter" caricati da Google Fonts, con trasmissione del tuo IP ai server Google — non è un cookie, ma una connessione di rete.</p>
-    <p style="font-weight:500;margin-bottom:.5rem;">Link a piattaforme esterne</p>
-    <p style="margin-bottom:1.5rem;">WhatsApp, Instagram e Google Maps possono usare propri cookie secondo le rispettive normative, indipendenti da questo sito.</p>
-    <p style="margin-bottom:1.5rem;">Domande: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
+    <p class="legal-p">Il sito <b>non installa cookie di profilazione</b>, non utilizza Google Analytics e non salva dati nel tuo browser. Non essendo usati cookie non tecnici, non è necessario alcun banner di consenso, in linea con le Linee guida del Garante Privacy (provv. 231/2021).</p>
+    <p class="legal-h">Unico elemento esterno</p>
+    <p class="legal-p">I font "Playfair Display" e "Inter" caricati da Google Fonts, con trasmissione del tuo IP ai server Google — non è un cookie, ma una connessione di rete.</p>
+    <p class="legal-h">Link a piattaforme esterne</p>
+    <p class="legal-p">WhatsApp, Instagram e Google Maps possono usare propri cookie secondo le rispettive normative, indipendenti da questo sito.</p>
+    <p class="legal-p">Domande: <a href="mailto:${EMAIL}" style="text-decoration:underline;">${EMAIL}</a>.</p>
   </div>`;
 }
 
