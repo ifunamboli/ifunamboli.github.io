@@ -17,8 +17,10 @@
 <link rel="preload" href="./font/playfair-display-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script defer data-domain="www.funamboli.it" src="https://plausible.io/js/script.js"></script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BookStore","name":"I Funamboli","address":{"@type":"PostalAddress","streetAddress":"Via Madonna degli Angeli 35","addressLocality":"Barletta","addressRegion":"BT","addressCountry":"IT"},"telephone":"+390883011817","email":"ifunamboli@libero.it","sameAs":["https://instagram.com/funamboli"]}
+{"@context":"https://schema.org","@graph":[{"@type":["BookStore","CafeOrCoffeeShop"],"@id":"https://www.funamboli.it/#business","name":"I Funamboli","legalName":"I Funamboli snc di Lattanzio G. e Marino M.","description":"I Funamboli è una libreria indipendente e sala da tè con specialty coffee a Barletta, in Puglia, con una proposta di dolci e bevande interamente vegan.","url":"https://www.funamboli.it/","telephone":"+390883011817","email":"info@funamboli.it","image":"https://www.funamboli.it/immagini/hero.jpg","priceRange":"€€","servesCuisine":"Vegan","address":{"@type":"PostalAddress","streetAddress":"Via Madonna degli Angeli 35","addressLocality":"Barletta","addressRegion":"BT","postalCode":"76121","addressCountry":"IT"},"geo":{"@type":"GeoCoordinates","latitude":41.3191433,"longitude":16.2849511},"containedInPlace":{"@type":"AdministrativeArea","name":"Puglia"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":"Monday","opens":"17:00","closes":"21:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Tuesday","opens":"09:30","closes":"13:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Tuesday","opens":"17:00","closes":"21:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Thursday","opens":"09:30","closes":"13:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Thursday","opens":"17:00","closes":"21:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Friday","opens":"09:30","closes":"13:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Friday","opens":"17:00","closes":"21:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:30","closes":"13:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"17:00","closes":"21:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"09:30","closes":"13:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"17:00","closes":"21:30"}],"sameAs":["https://instagram.com/funamboli"]},{"@type":"WebSite","@id":"https://www.funamboli.it/#website","url":"https://www.funamboli.it/","name":"I Funamboli","inLanguage":"it-IT","publisher":{"@id":"https://www.funamboli.it/#business"}}]}
 </script>
+<meta property="og:url" content="https://www.funamboli.it/">
+<meta property="og:description" content="I Funamboli: libreria emotivo-relazionale, sala da tè vegana e specialty coffee a Barletta, in Puglia.">
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:300;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;src:url(./font/inter-latin-300-normal.woff2) format('woff2');}
 @font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:400;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;src:url(./font/inter-latin-400-normal.woff2) format('woff2');}
@@ -158,9 +160,19 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
   <div id="menu-overlay"><nav id="menu-nav"></nav></div>
   <div class="scroll-area" id="scroll-area">
     <div id="content">
-      <div style="padding:9rem 1.5rem;">
+      <!-- Contenuto statico di fallback per crawler/utenti senza JS: usa gli stessi testi reali già presenti in dati/homepage.json, dati/testi.json e dati/impostazioni.json. Viene sovrascritto istantaneamente da render() appena il JS carica: non cambia nulla per chi visita normalmente il sito. NON rimuovere: senza questo blocco, l'HTML iniziale non contiene testo leggibile. -->
+      <div style="padding:9rem 1.5rem 1rem;">
+        <p class="eyebrow">Barletta · Libreria tè e coffee specialty</p>
+        <h1 class="serif" style="font-size:28px;line-height:1.25;margin-bottom:1rem;">I Funamboli — libreria indipendente e sala da tè con specialty coffee a Barletta</h1>
+        <p style="margin-bottom:1rem;">Un luogo in cui le storie incontrano la vita. I libri sono ordinati per territori emotivi, non per genere o autore. Con Maria, psicoterapeuta e co-fondatrice, è nato uno spazio dove la lettura è cura — con tè in foglie, specialty coffee e una proposta di dolci e bevande interamente vegan.</p>
+        <h2 style="font-size:16px;margin:1.5rem 0 .5rem;">Dove siamo</h2>
+        <p style="margin-bottom:.25rem;">Via Madonna degli Angeli 35, Barletta (BT) — tel. +39 0883 011817</p>
+        <p style="margin-bottom:1rem;">A pochi minuti a piedi dal centro storico e dal Castello di Barletta. Parcheggio libero disponibile lungo le vie limitrofe.</p>
+        <h2 style="font-size:16px;margin:1.5rem 0 .5rem;">Orari</h2>
+        <p style="margin-bottom:.25rem;">Lunedì 17.00–21.30 · Martedì, Giovedì, Venerdì, Sabato, Domenica 9.30–13.30 e 17.00–21.30 · Mercoledì riposo</p>
+      </div>
+      <div style="padding:0 1.5rem;">
         <div class="skel" style="height:14px;width:40%;margin-bottom:14px;"></div>
-        <div class="skel" style="height:30px;width:80%;margin-bottom:24px;"></div>
         <div class="skel" style="height:14px;width:100%;margin-bottom:8px;"></div>
         <div class="skel" style="height:14px;width:90%;"></div>
       </div>
