@@ -161,19 +161,21 @@ input,select,textarea{width:100%;padding:1rem 0;border:none;border-bottom:1px so
   <div class="scroll-area" id="scroll-area">
     <div id="content">
       <!-- Contenuto statico di fallback per crawler/utenti senza JS: usa gli stessi testi reali già presenti in dati/homepage.json, dati/testi.json e dati/impostazioni.json. Viene sovrascritto istantaneamente da render() appena il JS carica: non cambia nulla per chi visita normalmente il sito. NON rimuovere: senza questo blocco, l'HTML iniziale non contiene testo leggibile. -->
-      <div style="padding:9rem 1.5rem 1rem;">
+      <!-- Contenuto statico di fallback per crawler/utenti senza JS: usa gli stessi testi reali già presenti in dati/homepage.json, dati/testi.json e dati/impostazioni.json. Nascosto SOLO visivamente (clip/1px) così i visitatori reali vedono subito lo skeleton grafico invece del testo grezzo; i crawler leggono comunque il codice sorgente normalmente. Viene sovrascritto istantaneamente da render() appena il JS carica. NON rimuovere: senza questo blocco, l'HTML iniziale non contiene testo leggibile. -->
+      <div style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
         <p class="eyebrow">Barletta · Libreria tè e coffee specialty</p>
-        <h1 class="serif" style="font-size:28px;line-height:1.25;margin-bottom:1rem;">I Funamboli — libreria indipendente e sala da tè con specialty coffee a Barletta</h1>
-        <p style="margin-bottom:1rem;">Un luogo in cui le storie incontrano la vita. I libri sono ordinati per territori emotivi, non per genere o autore. Con Maria, psicoterapeuta e co-fondatrice, è nato uno spazio dove la lettura è cura — con tè in foglie, specialty coffee e una proposta di dolci e bevande interamente vegan.</p>
-        <h2 style="font-size:16px;margin:1.5rem 0 .5rem;">Dove siamo</h2>
-        <p style="margin-bottom:.25rem;">Via Madonna degli Angeli 35, Barletta (BT) — tel. +39 0883 011817</p>
-        <p style="margin-bottom:1rem;">A pochi minuti a piedi dal centro storico e dal Castello di Barletta. Parcheggio libero disponibile lungo le vie limitrofe.</p>
-        <h2 style="font-size:16px;margin:1.5rem 0 .5rem;">Orari</h2>
-        <p style="margin-bottom:1rem;">Lunedì 17.00–21.30 · Martedì, Giovedì, Venerdì, Sabato, Domenica 9.30–13.30 e 17.00–21.30 · Mercoledì riposo</p>
-        <p style="margin-bottom:1rem;"><a href="/dove-siamo/" style="color:var(--gold);">Dove siamo, indirizzo e mappa</a> · <a href="/domande-frequenti/" style="color:var(--gold);">Domande frequenti</a></p>
+        <h1 class="serif">I Funamboli — libreria indipendente e sala da tè con specialty coffee a Barletta</h1>
+        <p>Un luogo in cui le storie incontrano la vita. I libri sono ordinati per territori emotivi, non per genere o autore. Con Maria, psicoterapeuta e co-fondatrice, è nato uno spazio dove la lettura è cura — con tè in foglie, specialty coffee e una proposta di dolci e bevande interamente vegan.</p>
+        <h2>Dove siamo</h2>
+        <p>Via Madonna degli Angeli 35, Barletta (BT) — tel. +39 0883 011817</p>
+        <p>A pochi minuti a piedi dal centro storico e dal Castello di Barletta. Parcheggio libero disponibile lungo le vie limitrofe.</p>
+        <h2>Orari</h2>
+        <p>Lunedì 17.00–21.30 · Martedì, Giovedì, Venerdì, Sabato, Domenica 9.30–13.30 e 17.00–21.30 · Mercoledì riposo</p>
+        <p><a href="/dove-siamo/">Dove siamo, indirizzo e mappa</a> · <a href="/domande-frequenti/">Domande frequenti</a></p>
       </div>
-      <div style="padding:0 1.5rem;">
+      <div style="padding:9rem 1.5rem 1rem;">
         <div class="skel" style="height:14px;width:40%;margin-bottom:14px;"></div>
+        <div class="skel" style="height:30px;width:80%;margin-bottom:24px;"></div>
         <div class="skel" style="height:14px;width:100%;margin-bottom:8px;"></div>
         <div class="skel" style="height:14px;width:90%;"></div>
       </div>
@@ -374,7 +376,9 @@ function renderShell(){
     <a href="https://instagram.com/${IG}" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--gold-light);letter-spacing:.1em;display:block;margin-bottom:2.5rem;">@${IG}</a>
     <p style="font-size:10.5px;color:rgba(255,255,255,.4);line-height:2.1;">P.IVA ${esc(PIVA)}<br>
       <button onclick="navigate('privacy')" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;cursor:pointer;padding:0;">Privacy policy</button> ·
-      <button onclick="navigate('cookie')" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;cursor:pointer;padding:0;">Cookie policy</button>
+      <button onclick="navigate('cookie')" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;cursor:pointer;padding:0;">Cookie policy</button> ·
+      <a href="/domande-frequenti/" style="color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;">Domande frequenti</a> ·
+      <a href="/dove-siamo/" style="color:rgba(255,255,255,.4);font-size:10.5px;text-decoration:underline;">Dove siamo</a>
     </p>`;
 }
 function runFades(){
