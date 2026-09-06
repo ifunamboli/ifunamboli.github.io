@@ -1,26 +1,24 @@
 [
   {
-    "id": 1783492734503,
+    "id": 1788682881375,
+    "nome": "Inquietə - gruppo di lettura transfemminista",
+    "libro": "Tema dell'incontro Decolonizzare lo sguardo",
+    "autore": "",
+    "data": "2026-09-18",
+    "ora": "20:30",
+    "posti": "8",
+    "descrizione": "Acquista il libro qui in libreria e partecipa!",
+    "immagine": "gdl.webp"
+  },
+  {
+    "id": 1788682767432,
     "nome": "GDL I Funamboli — narrativa indipendente",
     "libro": "Una traiettoria esemplare",
     "autore": "Zinet Nagui",
     "data": "2026-09-29",
     "ora": "19:30",
-    "posti": "8",
-    "descrizione": "leggeremo il nuovo libro del nostro gdl, passa a conoscere il gruppo!
-
-N. è un fallito. Capita, nella vita. Fino a un certo momento ha condotto una vita senza scopo, tra il suo monolocale e il bar, senza amici, senza un soldo, senza ambizioni, nient'altro che i suoi libri e l'alcol per mascherare il vuoto. In fondo, N. non è poi così infelice. Ha la fortuna di non lavorare e tutto il tempo libero per aspettare, come il primo idiota che capita, l'incontro amoroso che lo salverà. Ma d'improvviso, inatteso e ormai insperato, l'incontro amoroso ha luogo, e porta nel cuore di N. la speranza di porre fine alla sua irrimediabile solitudine. La felicità però raramente è dalla parte dei poveri diavoli. Basta una bugia, un momento di panico e si innesca una spirale di violenza e follia. Un autore nuovo, di cui tutti in Francia parlano, uno degli esordi letterari più folgoranti degli ultimi anni. Uno stile a metà tra Bukowski e Céline, Thompson e Simenon, ma che li rilegge in chiave contemporanea e contiene in sé tutte le contraddizioni, le tensioni e le follie del mondo che ci circonda, visto dalla periferia dell'esistenza.",
+    "posti": "9",
+    "descrizione": "Leggeremo il nuovo libro del nostro gdl, passa a conoscere il gruppo!\n\nN. è un fallito. Capita, nella vita. Fino a un certo momento ha condotto una vita senza scopo, tra il suo monolocale e il bar, senza amici, senza un soldo, senza ambizioni, nient'altro che i suoi libri e l'alcol per mascherare il vuoto. In fondo, N. non è poi così infelice. Ha la fortuna di non lavorare e tutto il tempo libero per aspettare, come il primo idiota che capita, l'incontro amoroso che lo salverà. Ma d'improvviso, inatteso e ormai insperato, l'incontro amoroso ha luogo, e porta nel cuore di N. la speranza di porre fine alla sua irrimediabile solitudine. La felicità però raramente è dalla parte dei poveri diavoli. Basta una bugia, un momento di panico e si innesca una spirale di violenza e follia. Un autore nuovo, di cui tutti in Francia parlano, uno degli esordi letterari più folgoranti degli ultimi anni. Uno stile a metà tra Bukowski e Céline, Thompson e Simenon, ma che li rilegge in chiave contemporanea e contiene in sé tutte le contraddizioni, le tensioni e le follie del mondo che ci circonda, visto dalla periferia dell'esistenza.",
     "immagine": "iper.webp"
-  },
-  {
-    "id": 1783435557544,
-    "nome": "Inquietə",
-    "libro": "varie",
-    "autore": "varie",
-    "data": "2026-09-18",
-    "ora": "20:30",
-    "posti": "8",
-    "descrizione": "gruppo di lettura transfemminista , acquista il libro qui in libreria e partecipa",
-    "immagine": "gdl.webp"
   }
 ]
