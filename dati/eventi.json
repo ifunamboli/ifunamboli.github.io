@@ -1,12 +1,22 @@
 [
   {
-    "id": 1789933283535,
-    "titolo": "Colazione letteraria",
+    "id": 1790014730553,
+    "titolo": "Colazione Letteraria Sabato 3 ottobre ore 10",
     "data": "2026-10-03",
     "ora": "10:00",
-    "luogo": "I Funamboli, Via madonna degli angeli,35",
-    "descrizione": "Colazione letteraria",
+    "luogo": "I funamboli, Via Madonna degli angeli 35",
+    "descrizione": "COLAZIONE LETTERARIA\nSabato 3 ottobre · ore 10:00\nI Funamboli · Barletta\n\nE se per un’ora ci concedessimo il lusso di non essere raggiungibili da nessuno?\n\nNiente notifiche.\nNiente scroll.\nNiente telefono.\nSolo un libro, una colazione e il piacere di leggere davvero.\n\nNasce Colazione Letteraria, un incontro a metà tra un silent reading party e una colazione tra lettori.\n\nCi troviamo, ci sistemiamo comodi, scegliamo il nostro libro e per un’ora leggiamo in silenzio, tutti insieme.\n\nOgnuno il proprio libro, ognuno la propria storia.\nMa tutti nello stesso spazio, con la stessa voglia di rallentare.\n\nPrima e dopo la lettura, invece, si chiacchiera: di libri, di storie, di autori e di quelle letture che ci hanno lasciato qualcosa. Ci scambiamo consigli, scopriamo nuovi titoli e soprattutto conosciamo persone con cui condividiamo una passione.\n\nUn modo diverso per fare community.\nUn piccolo rituale per staccare dal digitale.\nUn’ora tutta per noi e per i libri.\n\nPorta il libro che stai leggendo — o sceglilo qui in libreria\nSabato 3 ottobre, ore 10:00.\nTi aspettiamo\n\nPerché leggere insieme, anche in silenzio, può essere un bellissimo modo di incontrarsi.",
     "immagine": "silent.webp",
     "instagram": ""
+  },
+  {
+    "id": 1783435557544,
+    "titolo": "Nate dalla tempesta",
+    "data": "2026-07-23",
+    "ora": "19:30",
+    "luogo": "I funamboli libreria",
+    "descrizione": "Presentazione con l'autrice",
+    "immagine": "evento-24luglio.jpg",
+    "instagram": "https://www.instagram.com/p/Da7ktcpjmRx/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   }
 ]
